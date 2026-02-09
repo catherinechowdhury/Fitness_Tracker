@@ -53,8 +53,8 @@ body{
     display: block; 
     text-decoration: none;
     padding: 3px 8px;
-    color: blueviolet;
-    background-color: greenyellow; 
+    color: rgb(101, 31, 165);
+    background-color: rgb(29, 188, 11); 
 }
 
 .bold{
@@ -64,15 +64,21 @@ body{
 /*Hover Feature*/
 .menu-container:hover .dropdown-content{
     display: block;
+    color: rgb(31, 205, 12);
+}
+
+a:hover{
+    background-color: rgb(71, 224, 29);
 }
 
 .menu-container:hover .top-field{
-    background-color: greenyellow;
+    background-color: rgb(29, 188, 11);
 }
 
 .menu-container:focus-within .dropdown-content{
     display: block;
 }
+
 /*Text-box Customization*/
 
 .boxes{
