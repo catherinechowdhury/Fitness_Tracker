@@ -1,4 +1,114 @@
-/* selector {
-    property: value;
-} */
+/*
+* Resources used : https://www.w3schools.com/css/default.asp
+*/
 
+/* Background */
+
+body{
+	background-color: rgb(203, 241, 218);
+	color: black;
+	margin-top: 0;
+	margin-left: 0;
+	margin-right: 0;
+	font-family: sans-serif;
+	
+}
+
+/*Navigation Customization*/
+
+.dropdown-menu{
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    background-color: green;
+    align-items: flex-start;
+}
+
+.menu-container{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: green;
+    width: 80px;
+}
+
+.top-field{
+    padding: 8px 8px;
+    cursor: default;
+    color: black;
+}
+
+.dropdown-content{
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: green;
+    min-width: 100%;
+    z-index: 10;
+}
+
+.dropdown-content a{
+    display: block; 
+    text-decoration: none;
+    padding: 3px 8px;
+    color: blueviolet;
+    background-color: greenyellow; 
+}
+
+.bold{
+    font-weight: bold;
+}
+
+/*Hover Feature*/
+.menu-container:hover .dropdown-content{
+    display: block;
+}
+
+.menu-container:hover .top-field{
+    background-color: greenyellow;
+}
+
+.menu-container:focus-within .dropdown-content{
+    display: block;
+}
+/*Text-box Customization*/
+
+.boxes{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 3%;
+    margin-left: 11%;
+    margin-right: 11%;
+  
+}
+
+.boxes div{
+    background-color: white;
+   
+    margin-bottom:4%;
+    padding: 5px 10px 10px 20px;
+	
+	text-align: justify;
+	border-left-style: solid;
+	border-width: 5px;
+	white-space: normal;
+	font-size: 90%;
+	overflow-wrap: break-word;
+}
+
+#box1{
+	border-left-color: green;
+}
+
+#box2{
+	border-left-color: yellow;
+}
+
+/* Bold and Italics */
+.specialtext{
+	font-style: italic;
+	font-weight: bold;
+}
