@@ -1,0 +1,15 @@
+# node modules
+node_modules/
+
+# dotenv environment variable files
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+
+# Editor configs
+.vscode/
+.idea/
