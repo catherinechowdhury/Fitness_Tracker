@@ -1,0 +1,28 @@
+/* Global Styles */
+body .is-family-serif {
+    font-family: 'Literata', serif; /* modern sans-serif font */
+    background-color: #f9f9f9; /* light background for a clean look */
+    color: #333; /* dark text for readability */
+  }
+
+.hero.is-info {
+    background-color: #d6f0fa; /* soft pastel blue */
+    color: #8bc5e3; /* darker text for readability */
+  }
+
+#quote-text {
+    font-family: 'Roboto', serif; /* elegant serif font */
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+  }
+
+#quote-author {
+    font-family: 'Literata', serif; /* elegant serif font */
+    font-size: 1em;
+    margin-top: 0.5em;
+  }
+
+.navbar.is-danger {
+    background-color: #729eef; /* soft pastel blue */
+
+  }
