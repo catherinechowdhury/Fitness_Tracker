@@ -22,13 +22,15 @@
     </nav>
     </header> --> 
 
-     <nav class="navbar is-danger" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand"><span class="icon"><i class="fas fa-home"></i></span></div>
+     <nav class="block navbar is-danger" role="navigation" aria-label="main navigation">
+        <a href="index.html" class="navbar-item"><i class="fa-brands fa-files-pinwheel"></i></a>
         <div class="navbar-menu">
             <!-- Navbar Start -->
             <div class="navbar-start">
                 <a href="index.html" class="navbar-item">Home</a>
-
+                <a href="dashboard.html" class="navbar-item">Dashboard</a>
+                <a href="moodtracker.html" class="navbar-item">Mood Tracker</a>
+                
                 <div class="navbar-item has-dropdown is-hoverable">
                     <span class="navbar-link">About</span>
                     <div class="navbar-dropdown">
@@ -41,19 +43,38 @@
 
             <!-- Navbar End -->
             <div class="navbar-end">
-                <a href="projects.html" class="navbar-item">Projects</a>
-                <a href="resources.html" class="navbar-item">Resources</a>
-                <a href="form.html" class="navbar-item">Login</a>
+                <a class="navbar-item">Login</a>
+                <a href="form.html" class="navbar-item">Sign Up</a>
             </div>
         </div>
      </nav>
+
+     <!-----------------BANNER--------------->
+     <div class="block container">
+        <section class="hero is-info is-small">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+            <h1 class="title" id="quote-text">
+                "It is often the small steps, not the giant leaps, that bring about the most lasting change."
+            </h1>
+            <br/>
+            <h2 class="subtitle is-italic is-6" id="quote-author">
+                — Queen Elizabeth II
+            </h2>
+            </div>
+        </div>
+    </section>
+
+     </div>
+    
+
 
      <div class="container">
         <div class="columns">
             <div class="column is-half">
                 <div class="box">
                     <h3 class="title is-3">Add a Title at some point</h3>
-                    <p class="subtitle is-4">Something goes here</p>
+                    <p>Something goes here</p>
                 </div>
                 
             </div>
@@ -82,6 +103,7 @@
             </div>
         </div>
      </div>
+
 
 </body>
 </html>
