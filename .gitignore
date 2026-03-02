@@ -13,3 +13,5 @@ build/
 # Editor configs
 .vscode/
 .idea/
+
+vue-project/
