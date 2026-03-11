@@ -1,7 +1,6 @@
 <script setup lang="ts"></script>
 
 <template>
-  <!------------------------Navigation Bar--------------------->
   <nav class="block navbar is-danger" role="navigation" aria-label="main navigation">
     <a href="index.html" class="navbar-item"><i class="fa-brands fa-files-pinwheel"></i></a>
     <div class="navbar-menu">
