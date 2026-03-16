@@ -26,16 +26,23 @@ const toggleSignUp = ref(false)
     <div class="navbar-menu" :class="{ 'is-active': burgerActive }">
       <!-- Navbar Start -->
       <div class="navbar-start">
-        <a href="index.html" class="navbar-item">Home</a>
-        <a href="dashboard.html" class="navbar-item">Dashboard</a>
-        <a href="moodtracker.html" class="navbar-item">Mood Tracker</a>
+        <RouterLink to="/" active-class="is-active" class="navbar-item">Home</RouterLink>
+        <RouterLink to="/dashboard" active-class="is-active" class="navbar-item"
+          >Dashboard</RouterLink
+        >
+        <RouterLink to="/moodtracker" active-class="is-active" class="navbar-item"
+          >Mood Tracker</RouterLink
+        >
+        <RouterLink to="/statistics" active-class="is-active" class="navbar-item"
+          >Statistics</RouterLink
+        >
 
         <div class="navbar-item has-dropdown is-hoverable">
           <span class="navbar-link">About</span>
           <div class="navbar-dropdown">
-            <a href="about.html" class="navbar-item">About Us</a>
-            <a href="#" class="navbar-item">Our Team</a>
-            <a href="#" class="navbar-item">Careers</a>
+            <a href="about.html" class="navbar-item">Our Team</a>
+            <RouterLink to="/admin" active-class="is-active" class="navbar-item">Admin</RouterLink>
+            <a href="#" class="navbar-item">Contact Us</a>
           </div>
         </div>
       </div>
