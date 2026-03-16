@@ -3,7 +3,7 @@
 <template>
   <div class="container">
     <div class="columns">
-      <div class="column">
+      <div class="column is-half is-offset-one-quarter">
         <div class="box has-text-centered">
           <h3 class="title is-3">How are you feeling today?</h3>
           <div class="buttons is-centered">
