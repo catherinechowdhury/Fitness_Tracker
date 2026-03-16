@@ -33,6 +33,19 @@
           </button>
         </td>
       </tr>
+      <tr>
+        <td>Jane</td>
+        <td>Doe</td>
+        <td>jane.doe@example.com</td>
+        <td>User #1</td>
+        <td>
+          <button class="button is-small is-danger">
+            <span class="icon is-small">
+              <i class="fas fa-trash"></i>
+            </span>
+          </button>
+        </td>
+      </tr>
     </tbody>
   </table>
 </template>

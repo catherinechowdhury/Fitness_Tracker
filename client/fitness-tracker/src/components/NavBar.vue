@@ -40,7 +40,7 @@ const toggleSignUp = ref(false)
         <div class="navbar-item has-dropdown is-hoverable">
           <span class="navbar-link">About</span>
           <div class="navbar-dropdown">
-            <a href="about.html" class="navbar-item">Our Team</a>
+            <a href="#" class="navbar-item">Our Team</a>
             <RouterLink to="/admin" active-class="is-active" class="navbar-item">Admin</RouterLink>
             <a href="#" class="navbar-item">Contact Us</a>
           </div>
