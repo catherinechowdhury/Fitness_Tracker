@@ -4,6 +4,20 @@
   <nav class="block navbar is-danger" role="navigation" aria-label="main navigation">
     <a href="index.html" class="navbar-item"><i class="fa-brands fa-files-pinwheel"></i></a>
     <div class="navbar-menu">
+      <a
+        role="button"
+        class="navbar-burger"
+        aria-label="menu"
+        aria-expanded="false"
+        @click="isActive = !isActive"
+        :class="{ 'is-active': isActive }"
+        data-target="navbarBasicExample"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
       <!-- Navbar Start -->
       <div class="navbar-start">
         <a href="index.html" class="navbar-item">Home</a>

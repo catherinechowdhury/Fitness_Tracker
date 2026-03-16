@@ -32,15 +32,6 @@
 
         <div class="box">
           <p>This will be a temp place for these links</p>
-          <a href="assignment/recreation.html" class="button is-primary">
-            <span class="icon is-small"> <i class="fa-solid fa-code"></i></span>
-            <strong>Assignment 3: Recreated Website</strong>
-          </a>
-
-          <a href="assignment/bulma.html" class="button is-primary">
-            <span class="icon is-small"> <i class="fa-solid fa-code"></i></span>
-            <strong>Assignment 4: Bulma</strong>
-          </a>
         </div>
       </div>
     </div>
