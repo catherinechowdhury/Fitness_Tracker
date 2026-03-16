@@ -4,7 +4,7 @@ import ActivityTracker from '@/components/ActivityTracker.vue'
 
 <template>
   <div class="container">
-    <h1 class="title is-3">User Stats</h1>
+    <h1 class="title is-3">My Statistics</h1>
     <ActivityTracker />
   </div>
 </template>
