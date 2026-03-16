@@ -22,7 +22,21 @@
 
       <!-- Navbar End -->
       <div class="navbar-end">
-        <a class="navbar-item">Login</a>
+        <div class="dropdown is-active">
+          <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+            <span>Login</span>
+            <span class="icon is-small">
+              <i class="fa-solid fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </button>
+          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-content">
+              <a href="#" class="dropdown-item">Main User</a>
+              <a href="#" class="dropdown-item">User #1</a>
+              <a href="#" class="dropdown-item">User #2</a>
+            </div>
+          </div>
+        </div>
         <a href="form.html" class="navbar-item">Sign Up</a>
       </div>
     </div>
