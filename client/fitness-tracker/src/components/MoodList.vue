@@ -1,27 +1,38 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useMoodsStore } from '../stores/moods'
+
+const moodStore = useMoodsStore()
+</script>
 
 <template>
-  <div class="card">
+  <div v-for="(mood, index) in moodStore.moods" :key="index" class="card mb-4">
     <div class="card-content">
-      <div class="media">
-        <time datetime="2026-1-1">March 30, 2026</time>
-        <br />
-        <div class="is-success media-left">😊</div>
-        <div class="media-content">
-          <p class="title is-4">Happy</p>
-          <p class="subtitle is-6">@johnsmith</p>
+      <!-- Top row -->
+      <div class="level">
+        <div class="level-left">
+          <time class="level-item">{{ mood.date }}</time>
+        </div>
+
+        <div class="level-right">
+          <p class="title is-5 level-item">{{ mood.mood }}</p>
         </div>
       </div>
 
+      <!-- Comment -->
       <div class="content">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-        <a>@bulmaio</a>. <a href="#">#css</a>
-        <a href="#">#responsive</a>
-        <br />
-        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+        {{ mood.comment }}
       </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.card {
+  background-color: #f3eded;
+  color: #000000;
+}
+
+.title {
+  color: #000000;
+}
+</style>
