@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useWorkoutStore } from '@/stores/workout'
+import { api } from '@/services/myFetch'
 
 const workoutStore = useWorkoutStore()
 const emit = defineEmits(['close'])
@@ -12,10 +13,13 @@ const form = ref({
   moodAfter: '',
 })
 
-function submitWorkout() {
-  workoutStore.addWorkout({
-    userId: 1, // or activeUserId
-    ...form.value,
+async function submitWorkout() {
+  await api('/workouts/1', {
+    date: form.value.date,
+    type: form.value.type,
+    duration: form.value.duration,
+    moodBefore: form.value.moodBefore,
+    moodAfter: form.value.moodAfter,
   })
 
   form.value = {
@@ -26,6 +30,7 @@ function submitWorkout() {
     moodAfter: '',
   }
 
+  emit('saved') // 🔥 important
   emit('close')
 }
 </script>

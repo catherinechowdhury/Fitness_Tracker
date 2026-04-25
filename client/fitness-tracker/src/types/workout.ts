@@ -15,3 +15,9 @@ export type Mood = {
   mood: string
   note?: string
 }
+
+export type WorkoutResponse = {
+  data: Workout[]
+  total: number
+  isSuccess: boolean
+}
