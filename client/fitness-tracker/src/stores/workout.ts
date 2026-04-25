@@ -1,12 +1,5 @@
 import { defineStore } from 'pinia'
-
-export type Workout = {
-  date: string
-  type: string
-  duration: string
-  moodBefore: string
-  moodAfter: string
-}
+import type { Workout } from '@/types/workout'
 
 export const useWorkoutStore = defineStore('workout', {
   state: () => ({

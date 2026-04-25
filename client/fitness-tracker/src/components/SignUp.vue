@@ -39,6 +39,13 @@
         </div>
       </section>
 
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="control">
+          <input class="input" type="password" placeholder="Password" />
+        </div>
+      </div>
+
       <footer class="modal-card-foot">
         <button class="button is-success">Submit</button>
         <button class="button" @click="$emit('close')">Cancel</button>
