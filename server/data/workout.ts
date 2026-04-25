@@ -10,3 +10,7 @@ export type Workout = {
 
 export let workouts: Workout[] = [];
 export let nextId = 1;
+
+export function incrementWorkoutId() {
+  return nextId++;
+}
