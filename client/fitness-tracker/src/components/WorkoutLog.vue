@@ -13,8 +13,19 @@ const form = ref({
 })
 
 function submitWorkout() {
-  workoutStore.addWorkout({ ...form.value })
-  form.value = { date: '', type: '', duration: '', moodBefore: '', moodAfter: '' }
+  workoutStore.addWorkout({
+    userId: 1, // or activeUserId
+    ...form.value,
+  })
+
+  form.value = {
+    date: '',
+    type: '',
+    duration: '',
+    moodBefore: '',
+    moodAfter: '',
+  }
+
   emit('close')
 }
 </script>
