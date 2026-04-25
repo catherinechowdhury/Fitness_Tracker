@@ -1,4 +1,5 @@
 export type Workout = {
+  id: number
   date: string
   type: string
   duration: string

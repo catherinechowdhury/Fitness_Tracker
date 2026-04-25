@@ -1,22 +1,23 @@
 <script setup lang="ts">
-import type { Workout } from '@/types/workout'
+import { useWorkoutStore } from '@/stores/workout'
 
-defineProps<{
-  workouts: Workout[]
-}>()
+const workoutStore = useWorkoutStore()
 </script>
 
 <template>
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-half">
-        <div v-if="!workouts || workouts.length === 0" class="has-text-centered">
+        <div
+          v-if="!workoutStore.workouts || workoutStore.workouts.length === 0"
+          class="has-text-centered"
+        >
           <p>No workouts logged yet.</p>
         </div>
 
         <div
-          v-for="(workout, index) in workouts"
-          :key="index"
+          v-for="workout in workoutStore.workouts"
+          :key="workout.id"
           class="box summary mb-4 activity-box"
         >
           <h2 class="title is-4 has-text-centered">

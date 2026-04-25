@@ -11,11 +11,17 @@ export type Workout = {
 export const useWorkoutStore = defineStore('workout', {
   state: () => ({
     workouts: [] as Workout[],
+    nextId: 1,
   }),
 
   actions: {
-    addWorkout(workout: Workout) {
-      this.workouts.push(workout)
+    addWorkout(workout: Omit<Workout, 'id'>) {
+      this.workouts.push({
+        ...workout,
+        id: this.nextId,
+      })
+
+      this.nextId++
     },
 
     clearWorkouts() {
