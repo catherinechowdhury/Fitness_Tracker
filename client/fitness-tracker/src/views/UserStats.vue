@@ -1,9 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import ActivityTracker from '@/components/ActivityTracker.vue'
 import WorkoutLog from '@/components/WorkoutLog.vue'
 
 const toggleWorkoutLog = ref(false)
+const activeUserId = ref(1)
+const workouts = ref([])
+
+async function loadWorkouts(id: number) {
+  const res = await fetch(`http://localhost:3000/workouts/${id}`)
+  workouts.value = await res.json()
+}
+
+watch(activeUserId, loadWorkouts, { immediate: true })
 </script>
 
 <template>
@@ -33,7 +42,7 @@ const toggleWorkoutLog = ref(false)
   <!-- Activity Tracker -->
   <div class="container">
     <h1 class="title is-3">My Statistics</h1>
-    <ActivityTracker />
+    <ActivityTracker :workouts="workouts" />
   </div>
 </template>
 
