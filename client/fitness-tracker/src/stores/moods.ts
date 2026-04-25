@@ -6,6 +6,9 @@ export const useMoodsStore = defineStore('moods', () => {
   function addMood(mood: string, date: string, comment: string) {
     moods.value.push({ mood, date, comment })
   }
+  function deleteMood(index: number) {
+    moods.value.splice(index, 1)
+  }
 
-  return { moods, addMood }
+  return { moods, addMood, deleteMood }
 })

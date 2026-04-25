@@ -1,36 +1,24 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import WorkoutLog from '@/components/WorkoutLog.vue'
-
-const toggleWorkoutLog = ref(false)
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <!---------------------------Record Activity-------------------------------------->
-  <div class="container mt-5">
+  <div class="container">
+    <h1 class="title is-3">Dashboard</h1>
+    <p class="subtitle is-5">
+      Welcome to your fitness dashboard! Here you can track your workouts and moods.
+    </p>
+
     <div class="columns">
-      <div class="column is-full">
-        <div class="box has-background-danger has-text-centered">
-          <h1 class="title is-3">My Activity</h1>
-          <p class="has-text-weight-bold">
-            Record your activity and track your progress over time.
-          </p>
-          <br />
-          <button
-            class="button is-danger is-light is-fullwidth is-size-4"
-            @click="toggleWorkoutLog = true"
-          >
-            Record Activity
-          </button>
-        </div>
+      <div class="column is-half">
+        <h2 class="title is-4">My Workouts</h2>
+        <ActivityTracker />
       </div>
 
-      <div class="column"></div>
+      <div class="column is-half">
+        <h2 class="title is-4">My Moods</h2>
+        <MoodList />
+      </div>
     </div>
   </div>
-
-  <!---Workout Log Modal--->
-  <WorkoutLog v-if="toggleWorkoutLog" @close="toggleWorkoutLog = false" />
 </template>
 
 <style scoped></style>

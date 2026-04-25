@@ -11,20 +11,21 @@ const moodStore = useMoodsStore()
         <div class="level-left">
           <time class="level-item">{{ mood.date }}</time>
         </div>
+
         <div class="level-center">
           <p class="title is-5 level-item">{{ mood.mood }}</p>
         </div>
+
+        <div class="content">
+          {{ mood.comment }}
+        </div>
+
+        <div class="level-right">
+          <button class="button is-danger is-light is-small" @click="moodStore.deleteMood(index)">
+            Delete
+          </button>
+        </div>
       </div>
-      <div class="content">
-        {{ mood.comment }}
-      </div>
-      <button
-        class="button is-danger is-light is-small level-item"
-        type="button"
-        @click="moodStore.clearMoods()"
-      >
-        Delete
-      </button>
     </div>
   </div>
 </template>

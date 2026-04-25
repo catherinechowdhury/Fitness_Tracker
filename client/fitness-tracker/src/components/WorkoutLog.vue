@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useWorkoutStore } from '@/stores/workout'
 
-const emit = defineEmits(['close'])
-const workoutStore = useWorkoutStore()
+const emit = defineEmits(['close', 'save'])
 
 const form = ref({
   date: '',
@@ -13,14 +11,16 @@ const form = ref({
   moodAfter: '',
 })
 
-function saveWorkout() {
-  workoutStore.addWorkout(
-    form.value.date,
-    form.value.type,
-    form.value.duration,
-    form.value.moodBefore,
-    form.value.moodAfter,
-  )
+function submitWorkout() {
+  const workout = {
+    date: form.value.date,
+    type: form.value.type,
+    duration: form.value.duration,
+    moodBefore: form.value.moodBefore,
+    moodAfter: form.value.moodAfter,
+  }
+
+  emit('save', workout)
   emit('close')
 }
 </script>
@@ -40,7 +40,7 @@ function saveWorkout() {
           <h3 class="title is-3">Workout</h3>
 
           <div class="field">
-            <label class="label" type="date">Date</label>
+            <label class="label">Date</label>
             <div class="control">
               <input class="input" type="date" v-model="form.date" />
             </div>
@@ -50,7 +50,7 @@ function saveWorkout() {
             <label class="label">Type</label>
             <div class="select is-info">
               <select v-model="form.type">
-                <option>Select Workout</option>
+                <option disabled value="">Select Workout</option>
                 <option>Run</option>
                 <option>Walk</option>
                 <option>Yoga</option>
@@ -62,7 +62,7 @@ function saveWorkout() {
             <label class="label">Duration</label>
             <div class="select is-info">
               <select v-model="form.duration">
-                <option>Select Duration</option>
+                <option disabled value="">Select Duration</option>
                 <option>15 minutes</option>
                 <option>30 minutes</option>
                 <option>45 minutes</option>
@@ -75,7 +75,7 @@ function saveWorkout() {
             <label class="label">Mood Before</label>
             <div class="select is-info">
               <select v-model="form.moodBefore">
-                <option>Select Mood</option>
+                <option disabled value="">Select Mood</option>
                 <option>Happy</option>
                 <option>Neutral</option>
                 <option>Sad</option>
@@ -87,7 +87,7 @@ function saveWorkout() {
             <label class="label">Mood After</label>
             <div class="select is-info">
               <select v-model="form.moodAfter">
-                <option>Select Mood</option>
+                <option disabled value="">Select Mood</option>
                 <option>Happy</option>
                 <option>Neutral</option>
                 <option>Sad</option>
@@ -98,11 +98,15 @@ function saveWorkout() {
       </section>
 
       <footer class="modal-card-foot">
-        <button class="button is-success" @click="saveWorkout">Save</button>
+        <button class="button is-success" @click="submitWorkout">Save</button>
         <button class="button" @click="$emit('close')">Cancel</button>
       </footer>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.modal-card {
+  width: 400px;
+}
+</style>

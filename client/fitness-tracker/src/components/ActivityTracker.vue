@@ -1,19 +1,21 @@
 <script setup lang="ts">
-import { useWorkoutStore } from '@/stores/workout'
+import type { Workout } from '@/types'
 
-const workoutStore = useWorkoutStore()
+defineProps<{
+  workouts: Workout[]
+}>()
 </script>
 
 <template>
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-half">
-        <div v-if="workoutStore.workouts.length === 0" class="has-text-centered">
+        <div v-if="!workouts || workouts.length === 0" class="has-text-centered">
           <p>No workouts logged yet.</p>
         </div>
 
         <div
-          v-for="(workout, index) in workoutStore.workouts"
+          v-for="(workout, index) in workouts"
           :key="index"
           class="box summary mb-4 activity-box"
         >
@@ -21,7 +23,6 @@ const workoutStore = useWorkoutStore()
             {{ workout.date }}
           </h2>
 
-          <!-- Row 1 -->
           <div class="columns">
             <div class="column has-text-centered">
               <h3 class="title is-5">{{ workout.type }}</h3>
@@ -34,7 +35,6 @@ const workoutStore = useWorkoutStore()
             </div>
           </div>
 
-          <!-- Row 2 -->
           <div class="columns">
             <div class="column has-text-centered">
               <h3 class="title is-5">{{ workout.moodBefore }}</h3>
@@ -52,11 +52,4 @@ const workoutStore = useWorkoutStore()
   </div>
 </template>
 
-<style scoped>
-.activity-box {
-  background-color: #eeb0b0;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
-}
-</style>
+<style scoped></style>

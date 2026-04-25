@@ -2,25 +2,12 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useWorkoutStore = defineStore('workout', () => {
-  const workouts = ref([])
+  const workouts = ref<{ date: string; type: string; duration: string; moodBefore: string; moodAfter: string }[]>([])
 
-  async function fetchWorkouts() {
-    const res = await fetch('http://localhost:3000/workouts')
-    workouts.value = await res.json()
+  function addWorkout(date: string, type: string, duration: string, moodBefore: string, moodAfter: string) {
+    const entry = { date, type, duration, moodBefore, moodAfter }
+    workouts.value.push(entry)
   }
 
-  async function addWorkout(entry) {
-    const res = await fetch('http://localhost:3000/workouts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(entry),
-    })
-
-    const newWorkout = await res.json()
-    workouts.value.push(newWorkout)
-  }
-
-  return { workouts, fetchWorkouts, addWorkout }
+  return { workouts, addWorkout }
 })
