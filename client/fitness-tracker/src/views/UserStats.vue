@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-// import ActivityTracker from '@/components/ActivityTracker.vue'
-// import WorkoutLog from '@/components/WorkoutLog.vue'
+import ActivityTracker from '@/components/ActivityTracker.vue'
+import WorkoutLog from '@/components/WorkoutLog.vue'
+import type { Workout } from '@/types/workout'
 
 const toggleWorkoutLog = ref(false)
+const workouts = ref<Workout[]>([])
+
+function handleSaveWorkout(workout: Workout) {
+  workouts.value.push(workout)
+  toggleWorkoutLog.value = false
+}
 </script>
 
 <template>
@@ -26,6 +33,15 @@ const toggleWorkoutLog = ref(false)
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Modal -->
+  <WorkoutLog v-if="toggleWorkoutLog" @close="toggleWorkoutLog = false" @save="handleSaveWorkout" />
+
+  <!-- Stats -->
+  <div class="container">
+    <h1 class="title is-3">My Statistics</h1>
+    <ActivityTracker :workouts="workouts" />
   </div>
 </template>
 

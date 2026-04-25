@@ -12,7 +12,7 @@ const moodStore = useMoodsStore()
           <time class="level-item">{{ mood.date }}</time>
         </div>
 
-        <div class="level-center">
+        <div class="level-right">
           <p class="title is-5 level-item">{{ mood.mood }}</p>
         </div>
 
@@ -34,6 +34,7 @@ const moodStore = useMoodsStore()
 .card {
   background-color: #f3eded;
   color: #000000;
+  margin: 50px 10%;
 }
 
 .title {

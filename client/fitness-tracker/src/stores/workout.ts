@@ -1,13 +1,29 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
 
-export const useWorkoutStore = defineStore('workout', () => {
-  const workouts = ref<{ date: string; type: string; duration: string; moodBefore: string; moodAfter: string }[]>([])
+export type Workout = {
+  date: string
+  type: string
+  duration: string
+  moodBefore: string
+  moodAfter: string
+}
 
-  function addWorkout(date: string, type: string, duration: string, moodBefore: string, moodAfter: string) {
-    const entry = { date, type, duration, moodBefore, moodAfter }
-    workouts.value.push(entry)
-  }
+export const useWorkoutStore = defineStore('workout', {
+  state: () => ({
+    workouts: [] as Workout[],
+  }),
 
-  return { workouts, addWorkout }
+  actions: {
+    addWorkout(workout: Workout) {
+      this.workouts.push(workout)
+    },
+
+    clearWorkouts() {
+      this.workouts = []
+    },
+
+    removeWorkout(index: number) {
+      this.workouts.splice(index, 1)
+    },
+  },
 })

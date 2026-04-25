@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useWorkoutStore } from '@/stores/workout'
 
-const emit = defineEmits(['close', 'save'])
+const emit = defineEmits(['close'])
+const workoutStore = useWorkoutStore()
 
 const form = ref({
   date: '',
@@ -12,15 +14,14 @@ const form = ref({
 })
 
 function submitWorkout() {
-  const workout = {
+  workoutStore.addWorkout({
     date: form.value.date,
     type: form.value.type,
     duration: form.value.duration,
     moodBefore: form.value.moodBefore,
     moodAfter: form.value.moodAfter,
-  }
+  })
 
-  emit('save', workout)
   emit('close')
 }
 </script>
