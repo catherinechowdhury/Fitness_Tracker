@@ -12,21 +12,25 @@ const form = ref({
 })
 
 async function submitMood() {
-  await api(`/moods/${activeUserId}`, {
-    mood: form.value.mood,
-    date: form.value.date,
-    comment: form.value.comment,
-  })
-
-  form.value = {
-    mood: '',
-    date: '',
-    comment: '',
+  try {
+    await api(`/moods/${activeUserId}`, {
+      mood: form.value.mood,
+      date: form.value.date,
+      comment: form.value.comment,
+    })
+  } catch (err) {
+    console.error('Error submitting mood:', err)
   }
-
-  emit('saved')
-  emit('close')
 }
+
+form.value = {
+  mood: '',
+  date: '',
+  comment: '',
+}
+
+emit('saved')
+emit('close')
 </script>
 
 <template>
