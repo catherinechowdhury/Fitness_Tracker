@@ -13,7 +13,7 @@ export type Mood = {
   userId: number
   date: string
   mood: string
-  note?: string
+  comment?: string
 }
 
 export type WorkoutResponse = {

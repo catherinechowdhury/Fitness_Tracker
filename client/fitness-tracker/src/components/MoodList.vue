@@ -1,11 +1,30 @@
 <script setup lang="ts">
-import { useMoodsStore } from '../stores/moods'
+import { api } from '@/services/myFetch'
+import type { Mood } from '@/types/mood'
 
-const moodStore = useMoodsStore()
+const props = defineProps<{
+  moods: Mood[]
+}>()
+
+const emit = defineEmits(['deleted'])
+
+async function deleteMood(id: number) {
+  await api(`/moods/${id}`, undefined, {
+    method: 'DELETE',
+  })
+
+  emit('deleted')
+}
 </script>
 
 <template>
-  <div v-for="(mood, index) in moodStore.moods" :key="index" class="card mb-4">
+  <!-- Empty state -->
+  <div v-if="!props.moods || props.moods.length === 0" class="has-text-centered">
+    <p>No moods logged yet.</p>
+  </div>
+
+  <!-- Mood list -->
+  <div v-for="mood in props.moods" :key="mood.id" class="card mb-4">
     <div class="card-content">
       <div class="level">
         <div class="level-left">
@@ -15,16 +34,16 @@ const moodStore = useMoodsStore()
         <div class="level-right">
           <p class="title is-5 level-item">{{ mood.mood }}</p>
         </div>
+      </div>
 
-        <div class="content">
-          {{ mood.comment }}
-        </div>
+      <div class="content">
+        {{ mood.comment }}
+      </div>
 
-        <div class="level-right">
-          <button class="button is-danger is-light is-small" @click="moodStore.deleteMood(index)">
-            Delete
-          </button>
-        </div>
+      <div class="has-text-right mt-2">
+        <button class="button is-danger is-light is-small" @click="deleteMood(mood.id)">
+          Delete
+        </button>
       </div>
     </div>
   </div>
