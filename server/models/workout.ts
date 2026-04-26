@@ -1,4 +1,5 @@
 import { connect } from "../services/supabase";
+import { NewWorkout } from "../types/dataEnvelopes";
 
 const supabase = connect();
 
@@ -18,7 +19,7 @@ export async function getAll(userId: number) {
 }
 
 // CREATE
-export async function create(workout: any) {
+export async function create(workout: NewWorkout) {
   const { data, error } = await supabase
     .from("workouts")
     .insert({
@@ -38,7 +39,7 @@ export async function create(workout: any) {
 }
 
 // UPDATE
-export async function update(id: number, data: any) {
+export async function update(id: number, data: Partial<NewWorkout>) {
   const { data: updated, error } = await supabase
     .from("workouts")
     .update(data)
