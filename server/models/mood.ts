@@ -1,4 +1,5 @@
 import { connect } from "../services/supabase";
+import { NewMood } from "../types/dataEnvelopes";
 
 const supabase = connect();
 
@@ -16,7 +17,7 @@ export async function getAll(userId: number) {
   };
 }
 
-export async function create(mood: any) {
+export async function create(mood: NewMood) {
   const { data, error } = await supabase
     .from("moods")
     .insert({
@@ -32,10 +33,15 @@ export async function create(mood: any) {
   return data;
 }
 
-export async function update(id: number, data: any) {
+export async function update(id: number, data: Partial<NewMood>) {
   const { data: updated, error } = await supabase
     .from("moods")
-    .update(data)
+    .update({
+      user_id: data.userId,
+      mood: data.mood,
+      date: data.date,
+      comment: data.comment,
+    })
     .eq("id", id)
     .select()
     .single();
