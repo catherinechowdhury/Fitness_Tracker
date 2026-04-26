@@ -18,19 +18,18 @@ async function submitMood() {
       date: form.value.date,
       comment: form.value.comment,
     })
+    form.value = {
+      mood: '',
+      date: '',
+      comment: '',
+    }
+
+    emit('saved')
+    emit('close')
   } catch (err) {
     console.error('Error submitting mood:', err)
   }
 }
-
-form.value = {
-  mood: '',
-  date: '',
-  comment: '',
-}
-
-emit('saved')
-emit('close')
 </script>
 
 <template>
