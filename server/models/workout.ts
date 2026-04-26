@@ -1,4 +1,6 @@
-import { supabase } from "../services/supabase";
+import { connect } from "../services/supabase";
+
+const supabase = connect();
 
 // GET all workouts
 export async function getAll(userId: number) {
@@ -19,7 +21,14 @@ export async function getAll(userId: number) {
 export async function create(workout: any) {
   const { data, error } = await supabase
     .from("workouts")
-    .insert(workout)
+    .insert({
+      user_id: workout.userId,
+      date: workout.date,
+      type: workout.type,
+      duration: workout.duration,
+      mood_before: workout.moodBefore,
+      mood_after: workout.moodAfter,
+    })
     .select()
     .single();
 

@@ -19,7 +19,12 @@ export async function getAll(userId: number) {
 export async function create(mood: any) {
   const { data, error } = await supabase
     .from("moods")
-    .insert(mood)
+    .insert({
+      user_id: mood.userId,
+      mood: mood.mood,
+      date: mood.date,
+      comment: mood.comment,
+    })
     .select()
     .single();
 
