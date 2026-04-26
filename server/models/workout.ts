@@ -1,35 +1,49 @@
-import { Workout, workouts, incrementWorkoutId } from "../data/workout";
+import { supabase } from "../services/supabase";
 
-// GET all workouts for user
-export function getAll(userId: number) {
-  const list = workouts.filter((w) => w.userId === userId);
+// GET all workouts
+export async function getAll(userId: number) {
+  const { data, error } = await supabase
+    .from("workouts")
+    .select("*")
+    .eq("user_id", userId);
+
+  if (error) throw error;
 
   return {
-    list,
-    count: list.length,
+    list: data,
+    count: data.length,
   };
 }
 
-// CREATE workout
-export function create(workout: Omit<Workout, "id">) {
-  const newWorkout: Workout = {
-    id: incrementWorkoutId(),
-    ...workout,
-  };
+// CREATE
+export async function create(workout: any) {
+  const { data, error } = await supabase
+    .from("workouts")
+    .insert(workout)
+    .select()
+    .single();
 
-  workouts.push(newWorkout);
-  return newWorkout;
+  if (error) throw error;
+
+  return data;
 }
 
-// UPDATE workout
-export function update(id: number, data: Partial<Workout>) {
-  const index = workouts.findIndex((w) => w.id === id);
-  if (index === -1) return null;
+// UPDATE
+export async function update(id: number, data: any) {
+  const { data: updated, error } = await supabase
+    .from("workouts")
+    .update(data)
+    .eq("id", id)
+    .select()
+    .single();
 
-  workouts[index] = {
-    ...workouts[index],
-    ...data,
-  };
+  if (error) return null;
+  return updated;
+}
 
-  return workouts[index];
+// DELETE
+export async function remove(id: number) {
+  const { error } = await supabase.from("workouts").delete().eq("id", id);
+
+  return !error;
 }
