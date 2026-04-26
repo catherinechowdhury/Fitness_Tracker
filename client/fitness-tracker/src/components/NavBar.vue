@@ -54,9 +54,11 @@ const activeUserId = ref(0)
         <div class="navbar-item has-dropdown is-hoverable">
           <span class="navbar-link">Login</span>
           <div class="navbar-dropdown">
-            <a href="#" class="navbar-item" :class="{ 'is-active': activeUserId === 0 }">Admin</a>
-            <a href="#" class="navbar-item" :class="{ 'is-active': activeUserId === 1 }">User #1</a>
-            <a href="#" class="navbar-item" :class="{ 'is-active': activeUserId === 2 }">User #2</a>
+            <a href="#" class="navbar-item" :class="{ 'is-active': activeUserId === 0 }"
+              >LuneChow</a
+            >
+            <a href="#" class="navbar-item" :class="{ 'is-active': activeUserId === 1 }">IrfChow</a>
+            <a href="#" class="navbar-item" :class="{ 'is-active': activeUserId === 2 }">DChow</a>
           </div>
         </div>
         <div class="navbar-item">

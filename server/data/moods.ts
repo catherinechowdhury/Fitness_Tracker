@@ -6,7 +6,7 @@ export type Mood = {
   comment: string;
 };
 
-// In-memory mood storage
+//In-memory mood storage
 export const moods: Mood[] = [
   // optional seed data (you can remove this later)
   {

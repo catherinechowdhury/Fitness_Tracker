@@ -6,8 +6,9 @@ import moodController from "./controllers/moodController";
 import { config } from "dotenv";
 config();
 
-const PORT = process.env.PORT || 3000;
-const STATIC_DIR = process.env.STATIC_DIR || "client/fitness-tracker/dist";
+const PORT = process.env.PORT ?? 3000;
+const SERVER = process.env.SERVER ?? `localhost`;
+const STATIC_DIR = process.env.STATIC_DIR ?? "client/fitness-tracker/dist";
 const app = express();
 
 // Middleware
@@ -22,5 +23,5 @@ app
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on http://${SERVER}:${PORT}`);
 });
