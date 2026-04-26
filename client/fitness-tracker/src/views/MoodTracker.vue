@@ -4,7 +4,8 @@ import { api } from '@/services/myFetch'
 import MoodList from '@/components/MoodList.vue'
 import MoodUpdate from '@/components/MoodUpdate.vue'
 
-import type { Mood, DataListEnvelope } from '@/types/workout'
+import type { Mood } from '@/types/workout'
+import type { DataListEnvelope } from '../../../../server/types/dataEnvelopes'
 
 const toggleMoodUpdate = ref(false)
 const activeUserId = ref(1)

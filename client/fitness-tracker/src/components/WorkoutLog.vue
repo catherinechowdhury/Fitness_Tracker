@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useWorkoutStore } from '@/stores/workout'
+//import { useWorkoutStore } from '@/stores/workout'
 import { api } from '@/services/myFetch'
 
-const workoutStore = useWorkoutStore()
-const emit = defineEmits(['close'])
+//const workoutStore = useWorkoutStore()
+const emit = defineEmits(['close', 'saved'])
 const form = ref({
   date: '',
   type: '',
@@ -30,7 +30,7 @@ async function submitWorkout() {
     moodAfter: '',
   }
 
-  emit('saved') // 🔥 important
+  emit('saved')
   emit('close')
 }
 </script>

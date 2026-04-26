@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { api } from '@/services/myFetch'
-import type { Mood } from '@/types/mood'
+import type { Mood } from '@/types/workout'
 
 const props = defineProps<{
   moods: Mood[]

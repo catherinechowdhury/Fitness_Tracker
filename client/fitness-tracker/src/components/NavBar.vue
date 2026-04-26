@@ -4,6 +4,7 @@ import SignUp from './SignUp.vue'
 
 const burgerActive = ref(false)
 const toggleSignUp = ref(false)
+const activeUserId = ref(0)
 </script>
 
 <template>
@@ -53,9 +54,9 @@ const toggleSignUp = ref(false)
         <div class="navbar-item has-dropdown is-hoverable">
           <span class="navbar-link">Login</span>
           <div class="navbar-dropdown">
-            <a href="#" class="navbar-item">Admin</a>
-            <a href="#" class="navbar-item">User #1</a>
-            <a href="#" class="navbar-item">User #2</a>
+            <a href="#" class="navbar-item" :class="{ 'is-active': activeUserId === 0 }">Admin</a>
+            <a href="#" class="navbar-item" :class="{ 'is-active': activeUserId === 1 }">User #1</a>
+            <a href="#" class="navbar-item" :class="{ 'is-active': activeUserId === 2 }">User #2</a>
           </div>
         </div>
         <div class="navbar-item">

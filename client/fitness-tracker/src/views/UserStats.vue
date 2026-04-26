@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { api } from '@/services/myFetch'
+import type { Workout, WorkoutResponse } from '@/types/workout'
 import ActivityTracker from '@/components/ActivityTracker.vue'
 import WorkoutLog from '@/components/WorkoutLog.vue'
 
 const toggleWorkoutLog = ref(false)
 const activeUserId = ref(1)
-const workouts = ref([])
+const workouts = ref<Workout[]>([])
 
 async function loadWorkouts(id: number) {
-  const res = await api(`/workouts/${id}`)
+  const res = await api<WorkoutResponse>(`/workouts/${id}`)
   workouts.value = res.data
 }
 
