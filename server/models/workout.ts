@@ -42,7 +42,14 @@ export async function create(workout: NewWorkout) {
 export async function update(id: number, data: Partial<NewWorkout>) {
   const { data: updated, error } = await supabase
     .from("workouts")
-    .update(data)
+    .update({
+      user_id: data.userId,
+      date: data.date,
+      type: data.type,
+      duration: data.duration,
+      mood_before: data.moodBefore,
+      mood_after: data.moodAfter,
+    })
     .eq("id", id)
     .select()
     .single();
