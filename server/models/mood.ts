@@ -1,44 +1,46 @@
-import { Mood, moods, incrementMoodId } from "../data/moods";
+import { connect } from "../services/supabase";
 
-// GET all moods for user
-export function getAll(userId: number) {
-  const list = moods.filter((m) => m.userId === userId);
+const supabase = connect();
+
+export async function getAll(userId: number) {
+  const { data, error } = await supabase
+    .from("moods")
+    .select("*")
+    .eq("user_id", userId);
+
+  if (error) throw error;
 
   return {
-    list,
-    count: list.length,
+    list: data,
+    count: data.length,
   };
 }
 
-// CREATE mood
-export function create(mood: Omit<Mood, "id">) {
-  const newMood: Mood = {
-    id: incrementMoodId(),
-    ...mood,
-  };
+export async function create(mood: any) {
+  const { data, error } = await supabase
+    .from("moods")
+    .insert(mood)
+    .select()
+    .single();
 
-  moods.push(newMood);
-  return newMood;
+  if (error) throw error;
+  return data;
 }
 
-// UPDATE mood
-export function update(id: number, data: Partial<Mood>) {
-  const index = moods.findIndex((m) => m.id === id);
-  if (index === -1) return null;
+export async function update(id: number, data: any) {
+  const { data: updated, error } = await supabase
+    .from("moods")
+    .update(data)
+    .eq("id", id)
+    .select()
+    .single();
 
-  moods[index] = {
-    ...moods[index],
-    ...data,
-  };
-
-  return moods[index];
+  if (error) return null;
+  return updated;
 }
 
-// DELETE mood
-export function remove(id: number) {
-  const index = moods.findIndex((m) => m.id === id);
-  if (index === -1) return false;
+export async function remove(id: number) {
+  const { error } = await supabase.from("moods").delete().eq("id", id);
 
-  moods.splice(index, 1);
-  return true;
+  return !error;
 }
