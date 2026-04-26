@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import workoutController from "./controllers/workoutController";
+import moodController from "./controllers/moodController";
 
 import { config } from "dotenv";
 config();
@@ -14,7 +15,10 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use(express.static(STATIC_DIR)).use("/api/v1/workouts", workoutController);
+app
+  .use(express.static(STATIC_DIR))
+  .use("/api/v1/workouts", workoutController)
+  .use("/api/v1/moods", moodController);
 
 // Start server
 app.listen(PORT, () => {

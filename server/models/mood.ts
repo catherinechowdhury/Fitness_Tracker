@@ -1,4 +1,4 @@
-import { Mood, moods, incrementMoodId } from "../data/mood";
+import { Mood, moods, incrementMoodId } from "../data/moods";
 
 // GET all moods for user
 export function getAll(userId: number) {
