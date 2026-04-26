@@ -8,3 +8,10 @@ export type DataListEnvelope<T> = {
   isSuccess: boolean;
   total: number;
 };
+
+export type NewMood = {
+  userId: number;
+  date: string;
+  mood: string;
+  comment: string;
+};
