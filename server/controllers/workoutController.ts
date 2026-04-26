@@ -6,10 +6,10 @@ import { Workout } from "../data/workout";
 const router = Router();
 
 // GET workouts by user
-router.get("/:userId", (req, res) => {
+router.get("/:userId", async (req, res) => {
   const userId = Number(req.params.userId);
 
-  const { list, count } = getAll(userId);
+  const { list, count } = await getAll(userId);
 
   const response: DataListEnvelope<Workout> = {
     data: list,
@@ -21,10 +21,10 @@ router.get("/:userId", (req, res) => {
 });
 
 // POST create workout
-router.post("/:userId", (req, res) => {
+router.post("/:userId", async (req, res) => {
   const userId = Number(req.params.userId);
 
-  const workout = create({
+  const workout = await create({
     userId,
     date: req.body.date,
     type: req.body.type,
@@ -42,10 +42,10 @@ router.post("/:userId", (req, res) => {
 });
 
 // PATCH update workout
-router.patch("/:id", (req, res) => {
+router.patch("/:id", async (req, res) => {
   const id = Number(req.params.id);
 
-  const updated = update(id, req.body);
+  const updated = await update(id, req.body);
 
   const response: DataEnvelope<Workout | null> = {
     data: updated,

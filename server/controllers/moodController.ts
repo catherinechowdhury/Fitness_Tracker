@@ -6,10 +6,10 @@ import { Mood } from "../data/moods";
 const router = Router();
 
 // GET moods by user
-router.get("/:userId", (req, res) => {
+router.get("/:userId", async (req, res) => {
   const userId = Number(req.params.userId);
 
-  const { list, count } = getAll(userId);
+  const { list, count } = await getAll(userId);
 
   const response: DataListEnvelope<Mood> = {
     data: list,
@@ -21,10 +21,10 @@ router.get("/:userId", (req, res) => {
 });
 
 // POST create mood
-router.post("/:userId", (req, res) => {
+router.post("/:userId", async (req, res) => {
   const userId = Number(req.params.userId);
 
-  const mood = create({
+  const mood = await create({
     userId,
     mood: req.body.mood,
     date: req.body.date,
@@ -40,10 +40,10 @@ router.post("/:userId", (req, res) => {
 });
 
 // PATCH update mood
-router.patch("/:id", (req, res) => {
+router.patch("/:id", async (req, res) => {
   const id = Number(req.params.id);
 
-  const updated = update(id, req.body);
+  const updated = await update(id, req.body);
 
   const response: DataEnvelope<Mood | null> = {
     data: updated,
@@ -54,10 +54,10 @@ router.patch("/:id", (req, res) => {
 });
 
 // DELETE mood (important for your MoodList delete button)
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
   const id = Number(req.params.id);
 
-  const deleted = remove(id);
+  const deleted = await remove(id);
 
   const response: DataEnvelope<boolean> = {
     data: deleted,
