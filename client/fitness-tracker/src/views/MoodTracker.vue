@@ -27,7 +27,7 @@ watch(activeUserId, loadMoods, { immediate: true })
       @saved="loadMoods(activeUserId)"
     />
 
-    <MoodList :moods="moods" />
+    <MoodList :moods="moods" @deleted="loadMoods(activeUserId)" />
   </div>
 </template>
 

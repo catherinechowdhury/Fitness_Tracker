@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import SignUp from './SignUp.vue'
-
+import { useUserStore } from '@/stores/user'
 const burgerActive = ref(false)
 const toggleSignUp = ref(false)
-const activeUserId = ref(0)
+const userStore = useUserStore()
+//const activeUserId = ref(0)
 </script>
 
 <template>
@@ -54,11 +55,11 @@ const activeUserId = ref(0)
         <div class="navbar-item has-dropdown is-hoverable">
           <span class="navbar-link">Login</span>
           <div class="navbar-dropdown">
-            <a href="#" class="navbar-item" :class="{ 'is-active': activeUserId === 0 }"
-              >LuneChow</a
-            >
-            <a href="#" class="navbar-item" :class="{ 'is-active': activeUserId === 1 }">IrfChow</a>
-            <a href="#" class="navbar-item" :class="{ 'is-active': activeUserId === 2 }">DChow</a>
+            <select v-model="userStore.activeUserId">
+              <option disabled value="">Select User</option>
+              <option :value="1">Alice</option>
+              <option :value="2">Bob</option>
+            </select>
           </div>
         </div>
         <div class="navbar-item">

@@ -4,16 +4,20 @@ import { api } from '@/services/myFetch'
 import type { Workout } from '@/types/workout'
 import ActivityTracker from '@/components/ActivityTracker.vue'
 import WorkoutLog from '@/components/WorkoutLog.vue'
+import { useUserStore } from '@/stores/user'
+const userStore = useUserStore()
 
 const toggleWorkoutLog = ref(false)
-const activeUserId = ref(1)
+//const activeUserId = ref(1)
 const workouts = ref<Workout[]>([])
 
-async function loadWorkouts(id: number) {
-  workouts.value = await api<Workout[]>(`/workouts/${id}`)
+async function loadWorkouts() {
+  if (userStore.activeUserId !== null) {
+    workouts.value = await api<Workout[]>(`/workouts/${userStore.activeUserId}`)
+  }
 }
 
-watch(activeUserId, loadWorkouts, { immediate: true })
+watch(() => userStore.activeUserId, loadWorkouts, { immediate: true })
 </script>
 
 <template>
@@ -38,11 +42,7 @@ watch(activeUserId, loadWorkouts, { immediate: true })
   </div>
 
   <!-- Workout Log Modal -->
-  <WorkoutLog
-    v-if="toggleWorkoutLog"
-    @close="toggleWorkoutLog = false"
-    @saved="loadWorkouts(activeUserId)"
-  />
+  <WorkoutLog v-if="toggleWorkoutLog" @close="toggleWorkoutLog = false" @saved="loadWorkouts()" />
 
   <!-- Activity Tracker -->
   <div class="container">
