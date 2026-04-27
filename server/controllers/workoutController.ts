@@ -2,11 +2,12 @@ import { Router } from "express";
 import { getAll, create, update } from "../models/workout";
 import { DataEnvelope, DataListEnvelope } from "../types/dataEnvelopes";
 import { Workout } from "../data/workout";
+import { verifyJWT } from "../middleware/auth";
 
 const router = Router();
 
 // GET workouts by user
-router.get("/:userId", async (req, res) => {
+router.get("/:userId", verifyJWT, async (req, res) => {
   try {
     const userId = Number(req.params.userId);
 
@@ -26,7 +27,7 @@ router.get("/:userId", async (req, res) => {
 });
 
 // POST create workout
-router.post("/:userId", async (req, res) => {
+router.post("/:userId", verifyJWT, async (req, res) => {
   try {
     const userId = Number(req.params.userId);
 
@@ -52,7 +53,7 @@ router.post("/:userId", async (req, res) => {
 });
 
 // PATCH update workout
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", verifyJWT, async (req, res) => {
   try {
     const id = Number(req.params.id);
 

@@ -2,11 +2,12 @@ import { Router } from "express";
 import { getAll, create, update, remove } from "../models/mood";
 import { DataEnvelope, DataListEnvelope } from "../types/dataEnvelopes";
 import { Mood } from "../data/moods";
+import { verifyJWT } from "../middleware/auth";
 
 const router = Router();
 
 // GET moods by user
-router.get("/:userId", async (req, res) => {
+router.get("/:userId", verifyJWT, async (req, res) => {
   try {
     const userId = Number(req.params.userId);
 
@@ -26,7 +27,7 @@ router.get("/:userId", async (req, res) => {
 });
 
 // POST create mood
-router.post("/:userId", async (req, res) => {
+router.post("/:userId", verifyJWT, async (req, res) => {
   try {
     const userId = Number(req.params.userId);
 
@@ -50,7 +51,7 @@ router.post("/:userId", async (req, res) => {
 });
 
 // PATCH update mood
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", verifyJWT, async (req, res) => {
   try {
     const id = Number(req.params.id);
 
@@ -69,7 +70,7 @@ router.patch("/:id", async (req, res) => {
 });
 
 // DELETE mood (important for your MoodList delete button)
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyJWT, async (req, res) => {
   try {
     const id = Number(req.params.id);
 
