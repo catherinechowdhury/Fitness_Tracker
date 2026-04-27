@@ -2,9 +2,12 @@
 import { ref, onMounted } from 'vue'
 import { api } from '@/services/myFetch'
 import type { User } from '@/types/user'
-import { activeUserId } from '@/services/userState'
-import SignUp from './SignUp.vue'
+//import { activeUserId } from '@/services/userState'
+import { currentUser } from '@/services/auth'
+import { useRouter } from 'vue-router'
 
+import SignUp from './SignUp.vue'
+const router = useRouter()
 const burgerActive = ref(false)
 const toggleSignUp = ref(false)
 
@@ -13,6 +16,12 @@ const users = ref<User[]>([])
 async function loadUsers() {
   const res = await api<{ data: User[] }>('/users')
   users.value = res.data
+}
+
+function logout() {
+  localStorage.removeItem('token')
+  currentUser.value = null
+  router.push('/')
 }
 
 onMounted(loadUsers)
@@ -62,20 +71,16 @@ onMounted(loadUsers)
       <!-- Navbar End -->
       <div class="navbar-end">
         <!---Login Dropdown--->
-        <div class="navbar-item">
-          <div class="select">
-            <select v-model="activeUserId">
-              <option disabled value="">Select User</option>
+        <div v-if="currentUser" class="navbar-item">
+          <button class="button is-light" @click="logout">Logout</button>
+        </div>
 
-              <option v-for="user in users" :key="user.id" :value="user.id">
-                {{ user.name }}
-              </option>
-            </select>
+        <template v-else>
+          <RouterLink to="/login" class="navbar-item">Login</RouterLink>
+          <div class="navbar-item">
+            <button class="button is-primary" @click="toggleSignUp = true">Sign Up</button>
           </div>
-        </div>
-        <div class="navbar-item">
-          <button class="button is-primary" @click="toggleSignUp = true">Sign Up</button>
-        </div>
+        </template>
       </div>
     </div>
   </nav>
