@@ -1,11 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { api } from '@/services/myFetch'
+import type { User } from '@/types/user'
+import { activeUserId } from '@/services/userState'
 import SignUp from './SignUp.vue'
-import { useUserStore } from '@/stores/user'
+
 const burgerActive = ref(false)
 const toggleSignUp = ref(false)
-const userStore = useUserStore()
-//const activeUserId = ref(0)
+
+const users = ref<User[]>([])
+
+async function loadUsers() {
+  const res = await api<User[]>('/users')
+  users.value = res
+}
+
+onMounted(loadUsers)
 </script>
 
 <template>
@@ -52,13 +62,14 @@ const userStore = useUserStore()
       <!-- Navbar End -->
       <div class="navbar-end">
         <!---Login Dropdown--->
-        <div class="navbar-item has-dropdown is-hoverable">
-          <span class="navbar-link">Login</span>
-          <div class="navbar-dropdown">
-            <select v-model="userStore.activeUserId">
+        <div class="navbar-item">
+          <div class="select">
+            <select v-model="activeUserId">
               <option disabled value="">Select User</option>
-              <option :value="1">Alice</option>
-              <option :value="2">Bob</option>
+
+              <option v-for="user in users" :key="user.id" :value="user.id">
+                {{ user.name }}
+              </option>
             </select>
           </div>
         </div>

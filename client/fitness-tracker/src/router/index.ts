@@ -15,6 +15,11 @@ const router = createRouter({
       component: () => import('../views/DashBoard.vue'),
     },
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LogIn.vue'),
+    },
+    {
       path: '/moodtracker',
       name: 'moodtracker',
       component: () => import('../views/MoodTracker.vue'),

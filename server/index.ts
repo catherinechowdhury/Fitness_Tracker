@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import workoutController from "./controllers/workoutController";
 import moodController from "./controllers/moodController";
-
+import authController from "./controllers/authContoller";
+import userController from "./controllers/usersControllers";
 import { config } from "dotenv";
 config();
 
@@ -18,8 +19,10 @@ app.use(express.json());
 // Routes
 app
   .use(express.static(STATIC_DIR))
+  .use("/api/v1/auth", authController)
   .use("/api/v1/workouts", workoutController)
-  .use("/api/v1/moods", moodController);
+  .use("/api/v1/moods", moodController)
+  .use("/api/v1/users", userController);
 
 // Start server
 app.listen(PORT, () => {

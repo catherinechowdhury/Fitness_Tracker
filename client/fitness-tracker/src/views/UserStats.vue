@@ -5,19 +5,31 @@ import type { Workout } from '@/types/workout'
 import ActivityTracker from '@/components/ActivityTracker.vue'
 import WorkoutLog from '@/components/WorkoutLog.vue'
 import { useUserStore } from '@/stores/user'
+
 const userStore = useUserStore()
 
 const toggleWorkoutLog = ref(false)
-//const activeUserId = ref(1)
 const workouts = ref<Workout[]>([])
 
 async function loadWorkouts() {
-  if (userStore.activeUserId !== null) {
-    workouts.value = await api<Workout[]>(`/workouts/${userStore.activeUserId}`)
-  }
+  const id = userStore.activeUserId
+  if (!id) return
+
+  const res = await api<{ data: Workout[] }>(`/workouts/${id}`)
+  workouts.value = res.data
 }
 
-watch(() => userStore.activeUserId, loadWorkouts, { immediate: true })
+// react to user changes
+watch(
+  () => userStore.activeUserId,
+  () => loadWorkouts(),
+  { immediate: true },
+)
+
+// after saving a workout
+function handleSaved() {
+  loadWorkouts()
+}
 </script>
 
 <template>
@@ -42,7 +54,7 @@ watch(() => userStore.activeUserId, loadWorkouts, { immediate: true })
   </div>
 
   <!-- Workout Log Modal -->
-  <WorkoutLog v-if="toggleWorkoutLog" @close="toggleWorkoutLog = false" @saved="loadWorkouts()" />
+  <WorkoutLog v-if="toggleWorkoutLog" @close="toggleWorkoutLog = false" @saved="handleSaved" />
 
   <!-- Activity Tracker -->
   <div class="container">
