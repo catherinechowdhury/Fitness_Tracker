@@ -1,72 +1,26 @@
 import { Router } from "express";
-import { getAll, getById, create, update, remove } from "../models/user";
-import { DataEnvelope, DataListEnvelope } from "../types/dataEnvelopes";
-import { User } from "../data/users";
+import { getAllUsers, createUser } from "../models/user";
 
 const router = Router();
 
 // GET all users
-router.get("/", (_req, res) => {
-  const users = getAll();
-
-  const response: DataListEnvelope<User> = {
-    data: users,
-    total: users.length,
-    isSuccess: true,
-  };
-
-  res.send(response);
+router.get("/", async (_req, res) => {
+  try {
+    const users = await getAllUsers();
+    res.send({ data: users, isSuccess: true });
+  } catch (err) {
+    res.status(500).send({ isSuccess: false, error: err });
+  }
 });
 
-// GET user by id
-router.get("/:id", (req, res) => {
-  const user = getById(Number(req.params.id));
-
-  const response: DataEnvelope<User | null> = {
-    data: user ?? null,
-    isSuccess: !!user,
-  };
-
-  res.send(response);
-});
-
-// CREATE user
-router.post("/", (req, res) => {
-  const user = create({
-    name: req.body.name,
-    email: req.body.email,
-  });
-
-  const response: DataEnvelope<User> = {
-    data: user,
-    isSuccess: true,
-  };
-
-  res.send(response);
-});
-
-// UPDATE user
-router.patch("/:id", (req, res) => {
-  const updated = update(Number(req.params.id), req.body);
-
-  const response: DataEnvelope<User | null> = {
-    data: updated,
-    isSuccess: updated !== null,
-  };
-
-  res.send(response);
-});
-
-// DELETE user
-router.delete("/:id", (req, res) => {
-  const deleted = remove(Number(req.params.id));
-
-  const response: DataEnvelope<boolean> = {
-    data: deleted,
-    isSuccess: deleted,
-  };
-
-  res.send(response);
+// POST create user
+router.post("/", async (req, res) => {
+  try {
+    const user = await createUser(req.body.name, req.body.email);
+    res.send({ data: user, isSuccess: true });
+  } catch (err) {
+    res.status(500).send({ isSuccess: false, error: err });
+  }
 });
 
 export default router;

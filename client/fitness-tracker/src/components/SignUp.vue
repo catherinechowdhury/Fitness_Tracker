@@ -1,6 +1,24 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import { api } from '@/services/myFetch'
 
-<script setup lang="ts"></script>
+const form = ref({
+  name: '',
+  email: '',
+  password: '',
+})
+
+async function submitForm() {
+  await api('/users', {
+    method: 'POST',
+    body: {
+      name: form.value.name,
+      email: form.value.email,
+      password: form.value.password,
+    },
+  })
+}
+</script>
 
 <template>
   <div class="modal is-active">
@@ -17,36 +35,29 @@
           <h3 class="title is-3">Create your account</h3>
 
           <div class="field">
-            <label class="label">Name</label>
+            <label class="label">UserName</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Name" />
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="label">Username</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Username" />
+              <input class="input" type="text" placeholder="UserName" v-model="form.name" />
             </div>
           </div>
 
           <div class="field">
             <label class="label">Email</label>
             <div class="control">
-              <input class="input" type="email" placeholder="Email" />
+              <input class="input" type="email" placeholder="Email" v-model="form.email" />
             </div>
           </div>
         </div>
         <div class="field">
           <label class="label">Password</label>
           <div class="control">
-            <input class="input" type="password" placeholder="Password" />
+            <input class="input" type="password" placeholder="Password" v-model="form.password" />
           </div>
         </div>
       </section>
 
       <footer class="modal-card-foot">
-        <button class="button is-success">Submit</button>
+        <button class="button is-success" @click="submitForm">Submit</button>
         <button class="button" @click="$emit('close')">Cancel</button>
       </footer>
     </div>
