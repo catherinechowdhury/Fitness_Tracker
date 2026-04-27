@@ -6,7 +6,7 @@ import { User } from "../data/users";
 const router = Router();
 
 // GET all users
-router.get("/", (req, res) => {
+router.get("/", (_req, res) => {
   const users = getAll();
 
   const response: DataListEnvelope<User> = {
