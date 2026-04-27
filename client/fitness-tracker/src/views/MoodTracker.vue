@@ -4,24 +4,19 @@ import { api } from '@/services/myFetch'
 import type { Mood } from '@/types/workout'
 import MoodList from '@/components/MoodList.vue'
 import MoodUpdate from '@/components/MoodUpdate.vue'
-import { useUserStore } from '@/stores/user'
 import { currentUser } from '@/services/auth'
-
-const userStore = useUserStore()
 const toggleMoodUpdate = ref(false)
 const moods = ref<Mood[]>([])
 const editingMood = ref<Mood | null>(null)
 
 async function loadMoods() {
-  const id = userStore.activeUserId
-  if (id !== null) {
-    const res = await api<{ data: Mood[] }>('/moods')
-    moods.value = res.data
-  }
+  if (!currentUser.value) return
+  const res = await api<{ data: Mood[] }>('/moods')
+  moods.value = res.data
 }
 
-async function deleteMood() {
-  await api(`/moods`, undefined, { method: 'DELETE' })
+async function deleteMood(id: number) {
+  await api(`/moods/${id}`, undefined, { method: 'DELETE' })
   loadMoods()
 }
 

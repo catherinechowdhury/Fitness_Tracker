@@ -4,10 +4,7 @@ import { api } from '@/services/myFetch'
 import type { Workout } from '@/types/workout'
 import ActivityTracker from '@/components/ActivityTracker.vue'
 import WorkoutLog from '@/components/WorkoutLog.vue'
-import { useUserStore } from '@/stores/user'
 import { currentUser } from '@/services/auth'
-
-const userStore = useUserStore()
 
 const toggleWorkoutLog = ref(false)
 const workouts = ref<Workout[]>([])
@@ -15,15 +12,14 @@ const workouts = ref<Workout[]>([])
 const editingWorkout = ref<Workout | null>(null)
 
 async function loadWorkouts() {
-  const id = userStore.activeUserId
-  if (!id) return
+  if (!currentUser.value) return
 
   const res = await api<{ data: Workout[] }>(`/workouts`)
   workouts.value = res.data
 }
 
-async function deleteWorkout() {
-  await api(`/workouts`, undefined, { method: 'DELETE' })
+async function deleteWorkout(id: number) {
+  await api(`/workouts/${id}`, undefined, { method: 'DELETE' })
   loadWorkouts()
 }
 

@@ -2,16 +2,20 @@
 import { ref } from 'vue'
 import { api } from '@/services/myFetch'
 import { useRouter } from 'vue-router'
+import { loadUserFromToken } from '@/services/auth'
 
 const router = useRouter()
 const email = ref('')
+const password = ref('')
 
 async function login() {
   const res = await api<{ token: string }>('/auth/login', {
-    userId: 1, // hardcoded user ID for demo; replace with actual login logic
+    email: email.value,
+    password: password.value,
   })
 
   localStorage.setItem('token', res.token)
+  loadUserFromToken()
   router.push('/statistics')
 }
 </script>
@@ -20,8 +24,9 @@ async function login() {
   <div class="container">
     <h1 class="title">Login</h1>
 
-    <input v-model="email" placeholder="email" class="input" />
+    <input v-model="email" placeholder="Email" class="input" type="email" />
+    <input v-model="password" placeholder="Password" class="input mt-2" type="password" />
 
-    <button class="button is-primary" @click="login">Login</button>
+    <button class="button is-primary mt-3" @click="login">Login</button>
   </div>
 </template>

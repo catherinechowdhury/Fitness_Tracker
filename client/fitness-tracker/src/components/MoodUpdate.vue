@@ -2,9 +2,7 @@
 import { ref, watch } from 'vue'
 import { api } from '@/services/myFetch'
 import type { Mood } from '@/types/moods'
-import { useUserStore } from '@/stores/user'
-
-const userStore = useUserStore()
+import { currentUser } from '@/services/auth'
 const emit = defineEmits(['close', 'saved'])
 
 const props = defineProps<{
@@ -42,8 +40,7 @@ watch(
 
 async function submitMood() {
   try {
-    const userId = userStore.activeUserId
-    if (!userId) return
+    if (!currentUser.value) return
     if (!form.value.mood || !form.value.date) {
       alert('Please select a mood and date.')
       return
@@ -51,7 +48,7 @@ async function submitMood() {
 
     if (form.value.id) {
       await api(
-        `/moods`,
+        `/moods/${form.value.id}`,
         {
           mood: form.value.mood,
           date: form.value.date,

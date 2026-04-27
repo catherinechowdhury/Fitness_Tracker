@@ -1,17 +1,23 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
+import { users } from "../data/users";
 
 const router = Router();
 
 router.post("/login", (req, res) => {
-  const { userId } = req.body;
+  const { email, password } = req.body;
 
-  const isAdmin = userId === 1;
+  const user = users.find((u) => u.email === email && u.password === password);
+
+  if (!user) {
+    res.status(401).send({ isSuccess: false, message: "Invalid credentials" });
+    return;
+  }
 
   const token = jwt.sign(
     {
-      id: userId,
-      role: isAdmin ? "admin" : "user",
+      id: user.id,
+      role: user.id === 1 ? "admin" : "user",
     },
     process.env.JWT_SECRET!,
     { expiresIn: "1h" },

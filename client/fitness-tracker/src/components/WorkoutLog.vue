@@ -2,9 +2,7 @@
 import { ref, watch } from 'vue'
 import { api } from '@/services/myFetch'
 import type { Workout } from '@/types/workout'
-import { useUserStore } from '@/stores/user'
-
-const userStore = useUserStore()
+import { currentUser } from '@/services/auth'
 
 const emit = defineEmits(['close', 'saved'])
 
@@ -41,12 +39,11 @@ watch(
 )
 
 async function submitWorkout() {
-  const userId = userStore.activeUserId
-  if (!userId) return
+  if (!currentUser.value) return
 
   if (form.value.id) {
     await api(
-      `/workouts`,
+      `/workouts/${form.value.id}`,
       {
         date: form.value.date,
         type: form.value.type,
