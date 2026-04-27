@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAll, create, update } from "../models/workout";
+import { getAll, create, update, remove } from "../models/workout";
 import { DataEnvelope, DataListEnvelope } from "../types/dataEnvelopes";
 import { Workout } from "../data/workout";
 import { verifyJWT } from "../middleware/auth";
@@ -67,6 +67,25 @@ router.patch("/:id", verifyJWT, async (req, res) => {
     res.send(response);
   } catch (err) {
     console.error("Error updating workout:", err);
+    res.status(500).send({ data: null, isSuccess: false });
+  }
+});
+
+// DELETE workout
+router.delete("/:id", verifyJWT, async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+
+    const deleted = await remove(id);
+
+    const response: DataEnvelope<boolean> = {
+      data: deleted,
+      isSuccess: deleted,
+    };
+
+    res.send(response);
+  } catch (err) {
+    console.error("Error deleting workout:", err);
     res.status(500).send({ data: null, isSuccess: false });
   }
 });

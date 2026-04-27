@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-//import { useWorkoutStore } from '@/stores/workout'
+import { ref, watch } from 'vue'
 import { api } from '@/services/myFetch'
+import type { Workout } from '@/types/workout'
+import { useUserStore } from '@/stores/user'
 
-//const workoutStore = useWorkoutStore()
+const userStore = useUserStore()
+
 const emit = defineEmits(['close', 'saved'])
+
+const props = defineProps<{
+  workout?: Workout | null
+}>()
+
 const form = ref({
+  id: 0,
   date: '',
   type: '',
   duration: '',
@@ -13,22 +21,52 @@ const form = ref({
   moodAfter: '',
 })
 
-async function submitWorkout() {
-  await api('/workouts/1', {
-    date: form.value.date,
-    type: form.value.type,
-    duration: form.value.duration,
-    moodBefore: form.value.moodBefore,
-    moodAfter: form.value.moodAfter,
-  })
+// 🔥 if editing → prefill form
+watch(
+  () => props.workout,
+  (w) => {
+    if (w) {
+      form.value = { ...w }
+    } else {
+      form.value = {
+        id: 0,
+        date: '',
+        type: '',
+        duration: '',
+        moodBefore: '',
+        moodAfter: '',
+      }
+    }
+  },
+  { immediate: true },
+)
 
-  // form.value = {
-  //   date: '',
-  //   type: '',
-  //   duration: '',
-  //   moodBefore: '',
-  //   moodAfter: '',
-  // }
+async function submitWorkout() {
+  const userId = userStore.activeUserId
+  if (!userId) return
+
+  // 🔥 UPDATE mode
+  if (form.value.id) {
+    await api(
+      `/workouts/${form.value.id}`,
+      {
+        date: form.value.date,
+        type: form.value.type,
+        duration: form.value.duration,
+        moodBefore: form.value.moodBefore,
+        moodAfter: form.value.moodAfter,
+      },
+      { method: 'PATCH' },
+    )
+  } else {
+    await api(`/workouts/${userId}`, {
+      date: form.value.date,
+      type: form.value.type,
+      duration: form.value.duration,
+      moodBefore: form.value.moodBefore,
+      moodAfter: form.value.moodAfter,
+    })
+  }
 
   emit('saved')
   emit('close')

@@ -11,6 +11,8 @@ const userStore = useUserStore()
 const toggleWorkoutLog = ref(false)
 const workouts = ref<Workout[]>([])
 
+const editingWorkout = ref<Workout | null>(null)
+
 async function loadWorkouts() {
   const id = userStore.activeUserId
   if (!id) return
@@ -19,7 +21,16 @@ async function loadWorkouts() {
   workouts.value = res.data
 }
 
-// react to user changes
+async function deleteWorkout(id: number) {
+  await api(`/workouts/${id}`, undefined, { method: 'DELETE' })
+  loadWorkouts()
+}
+
+function handleEdit(workout: Workout) {
+  editingWorkout.value = workout
+  toggleWorkoutLog.value = true
+}
+
 watch(
   () => userStore.activeUserId,
   () => loadWorkouts(),
@@ -54,12 +65,17 @@ function handleSaved() {
   </div>
 
   <!-- Workout Log Modal -->
-  <WorkoutLog v-if="toggleWorkoutLog" @close="toggleWorkoutLog = false" @saved="handleSaved" />
+  <WorkoutLog
+    v-if="toggleWorkoutLog"
+    :workout="editingWorkout"
+    @close="toggleWorkoutLog = false"
+    @saved="handleSaved"
+  />
 
   <!-- Activity Tracker -->
   <div class="container">
     <h1 class="title is-3">My Statistics</h1>
-    <ActivityTracker :workouts="workouts" />
+    <ActivityTracker :workouts="workouts" @delete="deleteWorkout" @edit="handleEdit" />
   </div>
 </template>
 

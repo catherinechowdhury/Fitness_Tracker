@@ -24,3 +24,19 @@ export async function rest<T>(endpoint: string, data?: unknown, options?: Reques
 export function api<T>(endpoint: string, data?: unknown, options?: RequestInit) {
   return rest<T>(endpoint, data, options)
 }
+
+export function apiGet<T>(url: string) {
+  return api<T>(url)
+}
+
+export function apiPost<T>(url: string, data: unknown) {
+  return api<T>(url, data, { method: 'POST' })
+}
+
+export function apiPatch<T>(url: string, data: unknown) {
+  return api<T>(url, data, { method: 'PATCH' })
+}
+
+export function apiDelete<T>(url: string) {
+  return api<T>(url, undefined, { method: 'DELETE' })
+}

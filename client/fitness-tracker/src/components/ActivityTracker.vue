@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import type { Workout } from '@/types/workout' // adjust path if needed
+import type { Workout } from '@/types/workout'
 
 defineProps<{
   workouts: Workout[]
+}>()
+const emit = defineEmits<{
+  (e: 'delete', id: number): void
+  (e: 'edit', workout: Workout): void
 }>()
 </script>
 
@@ -43,6 +47,13 @@ defineProps<{
               <h3 class="title is-5">{{ workout.moodAfter }}</h3>
               <p class="subtitle is-6">Mood After</p>
             </div>
+          </div>
+          <div class="buttons mt-3">
+            <button class="button is-warning is-small" @click="emit('edit', workout)">Edit</button>
+
+            <button class="button is-danger is-small" @click="emit('delete', workout.id)">
+              Delete
+            </button>
           </div>
         </div>
       </div>
