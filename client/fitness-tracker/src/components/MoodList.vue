@@ -24,7 +24,7 @@ async function deleteMood(id: number) {
   </div>
 
   <!-- Mood list -->
-  <div v-for="mood in props.moods" :key="mood.id" class="card mb-4">
+  <div v-for="mood in moods" :key="mood.id" class="card mb-4">
     <div class="card-content">
       <div class="level">
         <div class="level-left">

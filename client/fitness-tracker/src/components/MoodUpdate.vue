@@ -18,11 +18,11 @@ async function submitMood() {
       date: form.value.date,
       comment: form.value.comment,
     })
-    form.value = {
-      mood: '',
-      date: '',
-      comment: '',
-    }
+    // form.value = {
+    //   mood: '',
+    //   date: '',
+    //   comment: '',
+    // }
 
     emit('saved')
     emit('close')

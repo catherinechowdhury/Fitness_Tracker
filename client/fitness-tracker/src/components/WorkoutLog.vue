@@ -22,13 +22,13 @@ async function submitWorkout() {
     moodAfter: form.value.moodAfter,
   })
 
-  form.value = {
-    date: '',
-    type: '',
-    duration: '',
-    moodBefore: '',
-    moodAfter: '',
-  }
+  // form.value = {
+  //   date: '',
+  //   type: '',
+  //   duration: '',
+  //   moodBefore: '',
+  //   moodAfter: '',
+  // }
 
   emit('saved')
   emit('close')
