@@ -23,6 +23,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["server/**/*", "workoutController.ts"],
+  "include": ["server/**/*"],
   "exclude": ["node_modules", "dist"]
 }
