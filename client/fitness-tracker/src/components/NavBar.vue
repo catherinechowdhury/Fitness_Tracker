@@ -11,8 +11,8 @@ const toggleSignUp = ref(false)
 const users = ref<User[]>([])
 
 async function loadUsers() {
-  const res = await api<User[]>('/users')
-  users.value = res
+  const res = await api<{ data: User[] }>('/users')
+  users.value = res.data
 }
 
 onMounted(loadUsers)

@@ -11,10 +11,14 @@ export async function getAllUsers() {
 }
 
 // CREATE user
-export async function createUser(name: string, email?: string) {
+export async function createUser(
+  name: string,
+  email?: string,
+  password?: string,
+) {
   const { data, error } = await supabase
     .from("users")
-    .insert({ name, email })
+    .insert({ name, email, password })
     .select()
     .single();
 
