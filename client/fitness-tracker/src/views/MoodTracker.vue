@@ -1,20 +1,17 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { api } from '@/services/myFetch'
-import MoodList from '@/components/MoodList.vue'
-import MoodUpdate from '@/components/MoodUpdate.vue'
-
 import type { Mood } from '@/types/workout'
-import type { DataListEnvelope } from '../../../../server/types/dataEnvelopes'
+//import MoodList from '@/components/MoodList.vue'
+//import MoodUpdate from '@/components/MoodUpdate.vue'
+//import type { DataListEnvelope } from '../../../../server/types/dataEnvelopes'
 
 const toggleMoodUpdate = ref(false)
+const moods = ref<Mood[]>([])
 const activeUserId = ref(1)
 
-const moods = ref<Mood[]>([])
-
 async function loadMoods(id: number) {
-  const res = await api<DataListEnvelope<Mood>>(`/moods/${id}`)
-  moods.value = res.data
+  moods.value = await api<Mood[]>(`/moods/${id}`)
 }
 
 watch(activeUserId, loadMoods, { immediate: true })

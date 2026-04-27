@@ -10,8 +10,7 @@ const activeUserId = ref(1)
 const workouts = ref<Workout[]>([])
 
 async function loadWorkouts(id: number) {
-  const res = await api<WorkoutResponse>(`/workouts/${id}`)
-  workouts.value = res.data
+  workouts.value = await api<Workout[]>(`/workouts/${id}`)
 }
 
 watch(activeUserId, loadWorkouts, { immediate: true })
