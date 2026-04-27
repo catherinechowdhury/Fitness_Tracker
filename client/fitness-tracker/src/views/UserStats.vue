@@ -5,6 +5,7 @@ import type { Workout } from '@/types/workout'
 import ActivityTracker from '@/components/ActivityTracker.vue'
 import WorkoutLog from '@/components/WorkoutLog.vue'
 import { useUserStore } from '@/stores/user'
+import { currentUser } from '@/services/auth'
 
 const userStore = useUserStore()
 
@@ -17,12 +18,12 @@ async function loadWorkouts() {
   const id = userStore.activeUserId
   if (!id) return
 
-  const res = await api<{ data: Workout[] }>(`/workouts/${id}`)
+  const res = await api<{ data: Workout[] }>(`/workouts`)
   workouts.value = res.data
 }
 
-async function deleteWorkout(id: number) {
-  await api(`/workouts/${id}`, undefined, { method: 'DELETE' })
+async function deleteWorkout() {
+  await api(`/workouts`, undefined, { method: 'DELETE' })
   loadWorkouts()
 }
 
@@ -32,8 +33,12 @@ function handleEdit(workout: Workout) {
 }
 
 watch(
-  () => userStore.activeUserId,
-  () => loadWorkouts(),
+  currentUser,
+  () => {
+    if (currentUser.value) {
+      loadWorkouts()
+    }
+  },
   { immediate: true },
 )
 

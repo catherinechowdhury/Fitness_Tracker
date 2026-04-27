@@ -12,7 +12,7 @@ const emit = defineEmits<{
 }>()
 
 // async function deleteMood(id: number) {
-//   await api(`/moods/${id}`, undefined, {
+//   await api(`/moods`, undefined, {
 //     method: 'DELETE',
 //   })
 

@@ -51,7 +51,7 @@ async function submitMood() {
 
     if (form.value.id) {
       await api(
-        `/moods/${form.value.id}`,
+        `/moods`,
         {
           mood: form.value.mood,
           date: form.value.date,
@@ -60,7 +60,7 @@ async function submitMood() {
         { method: 'PATCH' },
       )
     } else {
-      await api(`/moods/${userId}`, {
+      await api(`/moods`, {
         mood: form.value.mood,
         date: form.value.date,
         comment: form.value.comment,

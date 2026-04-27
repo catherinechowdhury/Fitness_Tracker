@@ -46,7 +46,7 @@ async function submitWorkout() {
 
   if (form.value.id) {
     await api(
-      `/workouts/${form.value.id}`,
+      `/workouts`,
       {
         date: form.value.date,
         type: form.value.type,
@@ -57,7 +57,7 @@ async function submitWorkout() {
       { method: 'PATCH' },
     )
   } else {
-    await api(`/workouts/${userId}`, {
+    await api(`/workouts`, {
       date: form.value.date,
       type: form.value.type,
       duration: form.value.duration,

@@ -8,7 +8,7 @@ const email = ref('')
 
 async function login() {
   const res = await api<{ token: string }>('/auth/login', {
-    email: email.value,
+    userId: 1, // hardcoded user ID for demo; replace with actual login logic
   })
 
   localStorage.setItem('token', res.token)

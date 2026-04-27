@@ -38,4 +38,5 @@ router.delete("/:id", verifyJWT, async (req, res) => {
     res.status(500).send({ isSuccess: false, error: err });
   }
 });
+
 export default router;

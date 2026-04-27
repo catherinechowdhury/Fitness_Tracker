@@ -5,6 +5,7 @@ import type { Mood } from '@/types/workout'
 import MoodList from '@/components/MoodList.vue'
 import MoodUpdate from '@/components/MoodUpdate.vue'
 import { useUserStore } from '@/stores/user'
+import { currentUser } from '@/services/auth'
 
 const userStore = useUserStore()
 const toggleMoodUpdate = ref(false)
@@ -14,20 +15,22 @@ const editingMood = ref<Mood | null>(null)
 async function loadMoods() {
   const id = userStore.activeUserId
   if (id !== null) {
-    const res = await api<Mood[]>(`/moods/${id}`)
-    moods.value = res
+    const res = await api<{ data: Mood[] }>('/moods')
+    moods.value = res.data
   }
 }
 
-async function deleteMood(id: number) {
-  await api(`/moods/${id}`, undefined, { method: 'DELETE' })
+async function deleteMood() {
+  await api(`/moods`, undefined, { method: 'DELETE' })
   loadMoods()
 }
 
 watch(
-  () => userStore.activeUserId,
+  currentUser,
   () => {
-    loadMoods()
+    if (currentUser.value) {
+      loadMoods()
+    }
   },
   { immediate: true },
 )

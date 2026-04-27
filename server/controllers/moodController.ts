@@ -51,7 +51,7 @@ router.post("/", verifyJWT, async (req: any, res) => {
 });
 
 // PATCH update mood
-router.patch("/:id", verifyJWT, async (req, res) => {
+router.patch("/:id", verifyJWT, async (req: any, res) => {
   try {
     const id = Number(req.params.id);
 
@@ -70,7 +70,7 @@ router.patch("/:id", verifyJWT, async (req, res) => {
 });
 
 // DELETE mood (important for your MoodList delete button)
-router.delete("/:id", verifyJWT, async (req, res) => {
+router.delete("/:id", verifyJWT, async (req: any, res) => {
   try {
     const id = Number(req.params.id);
 
