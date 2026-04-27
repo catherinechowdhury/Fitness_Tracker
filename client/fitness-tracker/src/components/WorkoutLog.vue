@@ -21,7 +21,6 @@ const form = ref({
   moodAfter: '',
 })
 
-// 🔥 if editing → prefill form
 watch(
   () => props.workout,
   (w) => {
@@ -45,7 +44,6 @@ async function submitWorkout() {
   const userId = userStore.activeUserId
   if (!userId) return
 
-  // 🔥 UPDATE mode
   if (form.value.id) {
     await api(
       `/workouts/${form.value.id}`,
@@ -79,7 +77,7 @@ async function submitWorkout() {
 
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Add a Workout</p>
+        <p class="modal-card-title">{{ form.id ? 'Edit Workout' : 'Add a Workout' }}</p>
         <button class="delete" aria-label="close" @click="$emit('close')"></button>
       </header>
 

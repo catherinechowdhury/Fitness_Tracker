@@ -2,30 +2,43 @@
 import { ref, watch } from 'vue'
 import { api } from '@/services/myFetch'
 import type { Mood } from '@/types/workout'
-import { activeUserId } from '@/services/userState'
 import MoodList from '@/components/MoodList.vue'
 import MoodUpdate from '@/components/MoodUpdate.vue'
+import { useUserStore } from '@/stores/user'
 
+const userStore = useUserStore()
 const toggleMoodUpdate = ref(false)
 const moods = ref<Mood[]>([])
+const editingMood = ref<Mood | null>(null)
 
-async function loadMoods(id: number | null) {
+async function loadMoods() {
+  const id = userStore.activeUserId
   if (id !== null) {
     const res = await api<Mood[]>(`/moods/${id}`)
     moods.value = res
   }
 }
 
+async function deleteMood(id: number) {
+  await api(`/moods/${id}`, undefined, { method: 'DELETE' })
+  loadMoods()
+}
+
 watch(
-  activeUserId,
-  (id) => {
-    loadMoods(id)
+  () => userStore.activeUserId,
+  () => {
+    loadMoods()
   },
   { immediate: true },
 )
 
+function handleEdit(mood: Mood) {
+  editingMood.value = mood
+  toggleMoodUpdate.value = true
+}
+
 function handleSaved() {
-  loadMoods(activeUserId.value)
+  loadMoods()
 }
 </script>
 
@@ -33,9 +46,14 @@ function handleSaved() {
   <div class="container">
     <button class="button is-primary" @click="toggleMoodUpdate = true">Add Mood</button>
 
-    <MoodUpdate v-if="toggleMoodUpdate" @close="toggleMoodUpdate = false" @saved="handleSaved" />
+    <MoodUpdate
+      v-if="toggleMoodUpdate"
+      :mood="editingMood"
+      @close="toggleMoodUpdate = false"
+      @saved="handleSaved"
+    />
 
-    <MoodList :moods="moods" @deleted="loadMoods(activeUserId)" />
+    <MoodList :moods="moods" @deleted="deleteMood" @edit="handleEdit" />
   </div>
 </template>
 

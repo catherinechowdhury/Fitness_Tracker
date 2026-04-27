@@ -1,20 +1,23 @@
 <script setup lang="ts">
-import { api } from '@/services/myFetch'
+//import { api } from '@/services/myFetch'
 import type { Mood } from '@/types/workout'
 
 const props = defineProps<{
   moods: Mood[]
 }>()
 
-const emit = defineEmits(['deleted'])
+const emit = defineEmits<{
+  (e: 'deleted', id: number): void
+  (e: 'edit', mood: Mood): void
+}>()
 
-async function deleteMood(id: number) {
-  await api(`/moods/${id}`, undefined, {
-    method: 'DELETE',
-  })
+// async function deleteMood(id: number) {
+//   await api(`/moods/${id}`, undefined, {
+//     method: 'DELETE',
+//   })
 
-  emit('deleted')
-}
+//   emit('deleted')
+// }
 </script>
 
 <template>
@@ -41,9 +44,10 @@ async function deleteMood(id: number) {
       </div>
 
       <div class="has-text-right mt-2">
-        <button class="button is-danger is-light is-small" @click="deleteMood(mood.id)">
+        <button class="button is-danger is-light is-small" @click="emit('deleted', mood.id)">
           Delete
         </button>
+        <button class="button is-info is-light is-small" @click="emit('edit', mood)">Edit</button>
       </div>
     </div>
   </div>

@@ -1,31 +1,81 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { api } from '@/services/myFetch'
+import type { Mood } from '@/types/moods'
+import { useUserStore } from '@/stores/user'
 
+const userStore = useUserStore()
 const emit = defineEmits(['close', 'saved'])
-const activeUserId = 1
+
+const props = defineProps<{
+  mood?: Mood | null
+}>()
 
 const form = ref({
-  mood: '',
+  id: 0,
   date: '',
-  comment: '',
+  mood: '',
+  comment: '' as string | null,
 })
+
+watch(
+  () => props.mood,
+  (m) => {
+    if (m) {
+      form.value = {
+        id: m.id,
+        date: m.date,
+        mood: m.mood,
+        comment: m.comment ?? '',
+      }
+    } else {
+      form.value = {
+        id: 0,
+        date: '',
+        mood: '',
+        comment: '' as string | null,
+      }
+    }
+  },
+  { immediate: true },
+)
 
 async function submitMood() {
   try {
-    await api(`/moods/${activeUserId}`, {
-      mood: form.value.mood,
-      date: form.value.date,
-      comment: form.value.comment,
-    })
-    // form.value = {
-    //   mood: '',
-    //   date: '',
-    //   comment: '',
-    // }
+    const userId = userStore.activeUserId
+    if (!userId) return
+    if (!form.value.mood || !form.value.date) {
+      alert('Please select a mood and date.')
+      return
+    }
+
+    if (form.value.id) {
+      await api(
+        `/moods/${form.value.id}`,
+        {
+          mood: form.value.mood,
+          date: form.value.date,
+          comment: form.value.comment,
+        },
+        { method: 'PATCH' },
+      )
+    } else {
+      await api(`/moods/${userId}`, {
+        mood: form.value.mood,
+        date: form.value.date,
+        comment: form.value.comment,
+      })
+    }
 
     emit('saved')
     emit('close')
+
+    form.value = {
+      id: 0,
+      date: '',
+      mood: '',
+      comment: '',
+    }
   } catch (err) {
     console.error('Error submitting mood:', err)
   }
@@ -135,6 +185,7 @@ async function submitMood() {
         </div>
       </div>
     </div>
+    <button class="button" @click="$emit('close')">Cancel</button>
   </div>
 </template>
 
