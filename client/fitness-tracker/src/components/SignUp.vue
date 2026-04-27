@@ -10,13 +10,16 @@ const form = ref({
 
 async function submitForm() {
   await api('/users', {
-    method: 'POST',
-    body: {
-      name: form.value.name,
-      email: form.value.email,
-      password: form.value.password,
-    },
+    name: form.value.name,
+    email: form.value.email,
+    password: form.value.password,
   })
+
+  form.value = {
+    name: '',
+    email: '',
+    password: '',
+  }
 }
 </script>
 
