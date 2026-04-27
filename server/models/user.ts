@@ -25,3 +25,9 @@ export async function createUser(
   if (error) throw error;
   return data;
 }
+
+// DELETE user
+export async function deleteUser(id: number) {
+  const { error } = await supabase.from("users").delete().eq("id", id);
+  if (error) throw error;
+}

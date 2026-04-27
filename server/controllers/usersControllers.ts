@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { getAllUsers, createUser } from "../models/user";
+import { getAllUsers, createUser, deleteUser } from "../models/user";
+import { verifyJWT } from "../middleware/auth";
 
 const router = Router();
 
 // GET all users
-router.get("/", async (_req, res) => {
+router.get("/", verifyJWT, async (_req, res) => {
   try {
     const users = await getAllUsers();
     res.send({ data: users, isSuccess: true });
@@ -14,7 +15,7 @@ router.get("/", async (_req, res) => {
 });
 
 // POST create user
-router.post("/", async (req, res) => {
+router.post("/", verifyJWT, async (req, res) => {
   try {
     const user = await createUser(
       req.body.name,
@@ -27,4 +28,14 @@ router.post("/", async (req, res) => {
   }
 });
 
+//DELETE user (admin only)
+router.delete("/:id", verifyJWT, async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    await deleteUser(id);
+    res.send({ isSuccess: true });
+  } catch (err) {
+    res.status(500).send({ isSuccess: false, error: err });
+  }
+});
 export default router;
