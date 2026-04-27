@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue'
 import { api } from '@/services/myFetch'
 import type { User } from '@/types/user'
-//import { activeUserId } from '@/services/userState'
 import { currentUser } from '@/services/auth'
 import { useRouter } from 'vue-router'
 

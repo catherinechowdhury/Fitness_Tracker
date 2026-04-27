@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import workoutController from "./controllers/workoutController";
+import workoutController from "../workoutController";
 import moodController from "./controllers/moodController";
 import authController from "./controllers/authContoller";
 import userController from "./controllers/usersControllers";

@@ -11,7 +11,7 @@ export function verifyJWT(req: any, res: any, next: any) {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-    req.user = decoded; // 🔥 attach user to request
+    req.user = decoded;
     next();
   } catch {
     return res.status(403).send({ error: "Invalid token" });
