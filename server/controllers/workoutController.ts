@@ -7,9 +7,9 @@ import { verifyJWT } from "../middleware/auth";
 const router = Router();
 
 // GET workouts by user
-router.get("/:userId", verifyJWT, async (req, res) => {
+router.get("/", verifyJWT, async (req: any, res) => {
   try {
-    const userId = Number(req.params.userId);
+    const userId = req.user.id;
 
     const { list, count } = await getAll(userId);
 
@@ -27,9 +27,9 @@ router.get("/:userId", verifyJWT, async (req, res) => {
 });
 
 // POST create workout
-router.post("/:userId", verifyJWT, async (req, res) => {
+router.post("/", verifyJWT, async (req: any, res) => {
   try {
-    const userId = Number(req.params.userId);
+    const userId = req.user.id;
 
     const workout = await create({
       userId,
@@ -53,7 +53,7 @@ router.post("/:userId", verifyJWT, async (req, res) => {
 });
 
 // PATCH update workout
-router.patch("/:id", verifyJWT, async (req, res) => {
+router.patch("/:id", verifyJWT, async (req: any, res) => {
   try {
     const id = Number(req.params.id);
 

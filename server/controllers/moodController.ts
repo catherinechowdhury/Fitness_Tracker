@@ -7,9 +7,9 @@ import { verifyJWT } from "../middleware/auth";
 const router = Router();
 
 // GET moods by user
-router.get("/:userId", verifyJWT, async (req, res) => {
+router.get("/", verifyJWT, async (req: any, res) => {
   try {
-    const userId = Number(req.params.userId);
+    const userId = req.user.id;
 
     const { list, count } = await getAll(userId);
 
@@ -27,9 +27,9 @@ router.get("/:userId", verifyJWT, async (req, res) => {
 });
 
 // POST create mood
-router.post("/:userId", verifyJWT, async (req, res) => {
+router.post("/", verifyJWT, async (req: any, res) => {
   try {
-    const userId = Number(req.params.userId);
+    const userId = req.user.id;
 
     const mood = await create({
       userId,
