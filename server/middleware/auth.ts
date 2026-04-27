@@ -1,26 +1,19 @@
-import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-export function verifyJWT(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): void {
+export function verifyJWT(req: any, res: any, next: any) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    res.status(401).send("No token provided");
-    return;
+    return res.status(401).send({ error: "No token" });
   }
 
   const token = authHeader.split(" ")[1];
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-    (req as any).user = decoded; // attach user to request
+    req.user = decoded; // 🔥 attach user to request
     next();
-  } catch (err) {
-    res.status(403).send("Invalid token");
-    return;
+  } catch {
+    return res.status(403).send({ error: "Invalid token" });
   }
 }
