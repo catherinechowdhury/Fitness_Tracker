@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import { api } from '@/services/myFetch'
 
+const emit = defineEmits(['close', 'save'])
+
 const form = ref({
   name: '',
   email: '',
@@ -9,16 +11,22 @@ const form = ref({
 })
 
 async function submitForm() {
-  await api('/users', {
-    name: form.value.name,
-    email: form.value.email,
-    password: form.value.password,
-  })
+  try {
+    const res = await api<{ data: unknown }>('/users', {
+      name: form.value.name,
+      email: form.value.email,
+      password: form.value.password,
+    })
 
-  form.value = {
-    name: '',
-    email: '',
-    password: '',
+    emit('save', res.data)
+
+    form.value = {
+      name: '',
+      email: '',
+      password: '',
+    }
+  } catch (err) {
+    console.error('Error creating user:', err)
   }
 }
 </script>
