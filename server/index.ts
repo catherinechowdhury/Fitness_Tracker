@@ -1,14 +1,12 @@
+import "dotenv/config"; // must be first — loads .env before any module-level code reads process.env
 import express from "express";
 import cors from "cors";
-import { config } from "dotenv";
 import path from "path";
 import workoutController from "./controllers/workoutController";
 import moodController from "./controllers/moodController";
 import authController from "./controllers/authContoller";
 import userController from "./controllers/usersControllers";
 import { verifyJWT } from "./middleware/auth";
-
-config();
 
 const PORT = process.env.PORT ?? 3000;
 const SERVER = process.env.SERVER ?? "localhost";
