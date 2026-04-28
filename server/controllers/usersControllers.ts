@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { getAllUsers, createUser, deleteUser } from "../models/user";
-import { verifyJWT } from "../middleware/auth";
+import { verifyJWT, requireAdmin } from "../middleware/auth";
 
 const router = Router();
 
-// GET all users
-router.get("/", verifyJWT, async (_req, res) => {
+// GET all users (admin only)
+router.get("/", verifyJWT, requireAdmin, async (_req, res) => {
   try {
     const users = await getAllUsers();
     res.send({ data: users, isSuccess: true });
@@ -14,8 +14,8 @@ router.get("/", verifyJWT, async (_req, res) => {
   }
 });
 
-// POST create user
-router.post("/", verifyJWT, async (req, res) => {
+// POST create user (public — used for sign-up)
+router.post("/", async (req, res) => {
   try {
     const user = await createUser(
       req.body.name,
@@ -28,8 +28,8 @@ router.post("/", verifyJWT, async (req, res) => {
   }
 });
 
-//DELETE user (admin only)
-router.delete("/:id", verifyJWT, async (req, res) => {
+// DELETE user (admin only)
+router.delete("/:id", verifyJWT, requireAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id);
     await deleteUser(id);

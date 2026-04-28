@@ -1,15 +1,15 @@
 import { Router } from "express";
-import { getAll, create, update, remove } from "../models/workout";
+import { getAll, create, update, remove, getById } from "../models/workout";
 import { DataEnvelope, DataListEnvelope } from "../types/dataEnvelopes";
 import { Workout } from "../data/workout";
-import { verifyJWT } from "../middleware/auth";
+import { verifyJWT, requireAdmin } from "../middleware/auth";
 
 const router = Router();
 
-// GET workouts by user
+// GET workouts — admins see all, users see only their own
 router.get("/", verifyJWT, async (req: any, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.role === "admin" ? undefined : req.user.id;
 
     const { list, count } = await getAll(userId);
 
@@ -56,6 +56,22 @@ router.post("/", verifyJWT, async (req: any, res) => {
 router.patch("/:id", verifyJWT, async (req: any, res) => {
   try {
     const id = Number(req.params.id);
+    const userId = req.user.id;
+    const role = req.user.role;
+
+    const existing = await getById(id);
+    if (!existing) {
+      res
+        .status(404)
+        .send({ data: null, isSuccess: false, message: "Workout not found" });
+      return;
+    }
+    if (role !== "admin" && existing.user_id !== userId) {
+      res
+        .status(403)
+        .send({ data: null, isSuccess: false, message: "Forbidden" });
+      return;
+    }
 
     const updated = await update(id, req.body);
 
@@ -72,9 +88,25 @@ router.patch("/:id", verifyJWT, async (req: any, res) => {
 });
 
 // DELETE workout
-router.delete("/:id", verifyJWT, async (req, res) => {
+router.delete("/:id", verifyJWT, async (req: any, res) => {
   try {
     const id = Number(req.params.id);
+    const userId = req.user.id;
+    const role = req.user.role;
+
+    const existing = await getById(id);
+    if (!existing) {
+      res
+        .status(404)
+        .send({ data: null, isSuccess: false, message: "Workout not found" });
+      return;
+    }
+    if (role !== "admin" && existing.user_id !== userId) {
+      res
+        .status(403)
+        .send({ data: null, isSuccess: false, message: "Forbidden" });
+      return;
+    }
 
     const deleted = await remove(id);
 

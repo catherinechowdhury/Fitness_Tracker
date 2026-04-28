@@ -7,7 +7,11 @@ export async function getAllUsers() {
   const { data, error } = await supabase.from("users").select("*").order("id");
 
   if (error) throw error;
-  return data;
+
+  return {
+    list: data ?? [],
+    count: data?.length ?? 0,
+  };
 }
 
 // CREATE user
@@ -18,7 +22,11 @@ export async function createUser(
 ) {
   const { data, error } = await supabase
     .from("users")
-    .insert({ name, email, password })
+    .insert({
+      name,
+      email,
+      password,
+    })
     .select()
     .single();
 
@@ -29,5 +37,8 @@ export async function createUser(
 // DELETE user
 export async function deleteUser(id: number) {
   const { error } = await supabase.from("users").delete().eq("id", id);
+
   if (error) throw error;
+
+  return true;
 }

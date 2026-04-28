@@ -12,8 +12,8 @@ export async function getAll(userId: number) {
   if (error) throw error;
 
   return {
-    list: data,
-    count: data.length,
+    list: data ?? [],
+    count: data?.length ?? 0,
   };
 }
 
@@ -33,25 +33,39 @@ export async function create(mood: NewMood) {
   return data;
 }
 
-export async function update(id: number, data: Partial<NewMood>) {
-  const { data: updated, error } = await supabase
+export async function getById(id: number) {
+  const { data, error } = await supabase
     .from("moods")
-    .update({
-      user_id: data.userId,
-      mood: data.mood,
-      date: data.date,
-      comment: data.comment,
-    })
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) return null;
+  return data;
+}
+
+export async function update(id: number, mood: Partial<NewMood>) {
+  // only allow safe fields (prevents accidental user_id overwrite)
+  const updateData = {
+    mood: mood.mood,
+    date: mood.date,
+    comment: mood.comment,
+  };
+
+  const { data, error } = await supabase
+    .from("moods")
+    .update(updateData)
     .eq("id", id)
     .select()
     .single();
 
-  if (error) return null;
-  return updated;
+  if (error) throw error;
+  return data;
 }
 
 export async function remove(id: number) {
   const { error } = await supabase.from("moods").delete().eq("id", id);
 
-  return !error;
+  if (error) throw error;
+  return true;
 }

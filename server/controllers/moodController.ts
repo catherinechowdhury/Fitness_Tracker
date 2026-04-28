@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAll, create, update, remove } from "../models/mood";
+import { getAll, create, update, remove, getById } from "../models/mood";
 import { DataEnvelope, DataListEnvelope } from "../types/dataEnvelopes";
 import { Mood } from "../data/moods";
 import { verifyJWT } from "../middleware/auth";
@@ -13,20 +13,21 @@ router.get("/", verifyJWT, async (req: any, res) => {
 
     const { list, count } = await getAll(userId);
 
-    const response: DataListEnvelope<Mood> = {
+    res.send({
       data: list,
       total: count,
       isSuccess: true,
-    };
-
-    res.send(response);
+    } as DataListEnvelope<Mood>);
   } catch (err) {
     console.error("Error fetching moods:", err);
-    res.status(500).send({ data: null, isSuccess: false });
+    res.status(500).send({
+      data: null,
+      isSuccess: false,
+    });
   }
 });
 
-// POST create mood
+// POST mood
 router.post("/", verifyJWT, async (req: any, res) => {
   try {
     const userId = req.user.id;
@@ -38,53 +39,92 @@ router.post("/", verifyJWT, async (req: any, res) => {
       comment: req.body.comment,
     });
 
-    const response: DataEnvelope<Mood> = {
+    res.send({
       data: mood,
       isSuccess: true,
-    };
-
-    res.send(response);
+    } as DataEnvelope<Mood>);
   } catch (err) {
     console.error("Error creating mood:", err);
-    res.status(500).send({ data: null, isSuccess: false });
+    res.status(500).send({
+      data: null,
+      isSuccess: false,
+    });
   }
 });
 
-// PATCH update mood
+// PATCH mood
 router.patch("/:id", verifyJWT, async (req: any, res) => {
   try {
     const id = Number(req.params.id);
+    const userId = req.user.id;
+
+    const existing = await getById(id);
+    if (!existing) {
+      return res.status(404).send({
+        data: null,
+        isSuccess: false,
+        message: "Mood not found",
+      });
+    }
+
+    if (existing.user_id !== userId) {
+      return res.status(403).send({
+        data: null,
+        isSuccess: false,
+        message: "Forbidden",
+      });
+    }
 
     const updated = await update(id, req.body);
 
-    const response: DataEnvelope<Mood | null> = {
+    res.send({
       data: updated,
-      isSuccess: updated !== null,
-    };
-
-    res.send(response);
+      isSuccess: true,
+    } as DataEnvelope<Mood>);
   } catch (err) {
     console.error("Error updating mood:", err);
-    res.status(500).send({ data: null, isSuccess: false });
+    res.status(500).send({
+      data: null,
+      isSuccess: false,
+    });
   }
 });
 
-// DELETE mood (important for your MoodList delete button)
+// DELETE mood
 router.delete("/:id", verifyJWT, async (req: any, res) => {
   try {
     const id = Number(req.params.id);
+    const userId = req.user.id;
+
+    const existing = await getById(id);
+    if (!existing) {
+      return res.status(404).send({
+        data: null,
+        isSuccess: false,
+        message: "Mood not found",
+      });
+    }
+
+    if (existing.user_id !== userId) {
+      return res.status(403).send({
+        data: null,
+        isSuccess: false,
+        message: "Forbidden",
+      });
+    }
 
     const deleted = await remove(id);
 
-    const response: DataEnvelope<boolean> = {
+    res.send({
       data: deleted,
-      isSuccess: deleted,
-    };
-
-    res.send(response);
+      isSuccess: true,
+    } as DataEnvelope<boolean>);
   } catch (err) {
     console.error("Error deleting mood:", err);
-    res.status(500).send({ data: null, isSuccess: false });
+    res.status(500).send({
+      data: null,
+      isSuccess: false,
+    });
   }
 });
 

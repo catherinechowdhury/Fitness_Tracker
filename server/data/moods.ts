@@ -8,7 +8,6 @@ export type Mood = {
 
 //In-memory mood storage
 export const moods: Mood[] = [
-  // optional seed data (you can remove this later)
   {
     id: 1,
     userId: 1,
