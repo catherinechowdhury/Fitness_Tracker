@@ -16,21 +16,13 @@ const STATIC_DIR = process.env.STATIC_DIR ?? "client/fitness-tracker/dist";
 
 const app = express();
 
-// Core middleware
+// Middleware
 app.use(cors());
 app.use(express.json());
-
-// Static frontend
 app.use(express.static(STATIC_DIR));
 
-/*
-  PUBLIC ROUTES (no JWT)
-*/
+// Routes
 app.use("/api/v1/auth", authController);
-
-/*
-  PROTECTED ROUTES (JWT required)
-*/
 app.use("/api/v1/workouts", verifyJWT, workoutController);
 app.use("/api/v1/moods", verifyJWT, moodController);
 app.use("/api/v1/users", verifyJWT, userController);
