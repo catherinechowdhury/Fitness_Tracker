@@ -15,8 +15,10 @@ router.post("/login", async (req, res) => {
   const { data: user, error } = await supabase
     .from("users")
     .select("*")
-    .eq("email", email)
-    .maybeSingle();
+    .eq("email", email);
+
+  console.log("SUPABASE ERROR:", error);
+  console.log("SUPABASE DATA:", user);
 
   console.log("LOGIN DEBUG:", {
     body: req.body,
