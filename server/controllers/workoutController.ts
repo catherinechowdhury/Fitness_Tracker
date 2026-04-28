@@ -2,7 +2,7 @@ import { Router } from "express";
 import { getAll, create, update, remove, getById } from "../models/workout";
 import { DataEnvelope, DataListEnvelope } from "../types/dataEnvelopes";
 import { Workout } from "../data/workout";
-import { verifyJWT, requireAdmin } from "../middleware/auth";
+import { verifyJWT } from "../middleware/auth";
 
 const router = Router();
 

@@ -77,7 +77,7 @@ router.patch("/:id", verifyJWT, async (req: any, res) => {
 
     const updated = await update(id, req.body);
 
-    res.send({
+    return res.send({
       data: updated,
       isSuccess: true,
     } as DataEnvelope<Mood>);
@@ -115,7 +115,7 @@ router.delete("/:id", verifyJWT, async (req: any, res) => {
 
     const deleted = await remove(id);
 
-    res.send({
+    return res.send({
       data: deleted,
       isSuccess: true,
     } as DataEnvelope<boolean>);
