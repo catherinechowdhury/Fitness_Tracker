@@ -7,7 +7,10 @@ const supabase = connect();
 const router = Router();
 
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  let { email, password } = req.body;
+
+  email = email?.trim().toLowerCase();
+  password = password?.trim();
 
   const { data: user, error } = await supabase
     .from("users")
@@ -15,22 +18,17 @@ router.post("/login", async (req, res) => {
     .eq("email", email)
     .maybeSingle();
 
-  console.log("LOGIN BODY:", req.body);
-  console.log("INPUT PASSWORD:", password);
-  console.log("DB USER:", user);
-  console.log("DB PASSWORD:", user?.password);
-
   if (error || !user) {
     return res.status(401).send({
       isSuccess: false,
-      message: "Invalid credentials",
+      message: "User not found",
     });
   }
 
-  if (user.password !== password) {
+  if (user.password.trim() !== password) {
     return res.status(401).send({
       isSuccess: false,
-      message: "Invalid credentials",
+      message: "Wrong password",
     });
   }
 
