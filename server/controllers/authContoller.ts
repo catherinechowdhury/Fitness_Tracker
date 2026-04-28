@@ -12,11 +12,13 @@ router.post("/login", async (req, res) => {
   email = email?.trim().toLowerCase();
   password = password?.trim();
 
-  const { data: user, error } = await supabase
+  const { data, error } = await supabase
     .from("users")
     .select("*")
     .eq("email", email)
-    .single();
+    .maybeSingle();
+
+  const user = data;
 
   console.log("SUPABASE ERROR:", error);
   console.log("SUPABASE DATA:", user);
