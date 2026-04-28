@@ -18,6 +18,12 @@ router.post("/login", async (req, res) => {
     .eq("email", email)
     .maybeSingle();
 
+  console.log("LOGIN DEBUG:", {
+    body: req.body,
+    email: req.body.email,
+    password: req.body.password,
+  });
+
   if (error || !user) {
     return res.status(401).send({
       isSuccess: false,
