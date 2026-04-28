@@ -9,13 +9,13 @@ export const users: User[] = [
   {
     id: 1,
     name: "LuneChow",
-    email: "lunechow@test.com",
+    email: "lunechow@example.com",
     password: "password123",
   },
   {
     id: 2,
     name: "IrfChow",
-    email: "irfchow@test.com",
+    email: "irfchow@example.com",
     password: "password456",
   },
 ];

@@ -23,7 +23,7 @@ export async function createUser(
   const { data, error } = await supabase
     .from("users")
     .insert({
-      name,
+      username: name,
       email,
       password,
     })
