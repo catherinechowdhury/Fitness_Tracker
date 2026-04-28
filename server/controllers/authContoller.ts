@@ -1,17 +1,25 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
-import { users } from "../data/users";
+import { connect } from "../services/supabase";
+
+const supabase = connect();
 
 const router = Router();
 
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  const user = users.find((u) => u.email === email && u.password === password);
+  const { data: user, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .single();
 
-  if (!user) {
-    res.status(401).send({ isSuccess: false, message: "Invalid credentials" });
-    return;
+  if (error || !user || user.password !== password) {
+    return res.status(401).send({
+      isSuccess: false,
+      message: "Invalid credentials",
+    });
   }
 
   const token = jwt.sign(
@@ -23,7 +31,7 @@ router.post("/login", (req, res) => {
     { expiresIn: "1h" },
   );
 
-  res.send({ token });
+  return res.send({ token });
 });
 
 export default router;
