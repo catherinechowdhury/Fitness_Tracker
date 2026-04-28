@@ -14,18 +14,12 @@ router.post("/login", async (req, res) => {
 
   console.log("SUPABASE URL:", process.env.SUPABASE_URL);
   console.log("SUPABASE KEY OK:", !!process.env.SUPABASE_KEY);
-  // const { data, error } = await supabase
-  //   .from("users")
-  //   .select("*")
-  //   .eq("email", email)
-  //   .maybeSingle();
-  const query = supabase.from("users").select("*").eq("email", email);
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .maybeSingle();
 
-  console.log("ABOUT TO QUERY SUPABASE...");
-
-  const result = await query;
-
-  console.log("SUPABASE RESULT:", result);
   const user = data;
 
   console.log("SUPABASE ERROR:", error);
