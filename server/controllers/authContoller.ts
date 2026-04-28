@@ -15,11 +15,19 @@ router.post("/login", async (req, res) => {
     .eq("email", email)
     .single();
 
-  console.log("FOUND USER:", user);
+  console.log("LOGIN BODY:", req.body);
   console.log("INPUT PASSWORD:", password);
+  console.log("DB USER:", user);
   console.log("DB PASSWORD:", user?.password);
 
-  if (error || !user || user.password !== password) {
+  if (error || !user) {
+    return res.status(401).send({
+      isSuccess: false,
+      message: "Invalid credentials",
+    });
+  }
+
+  if (user.password !== password) {
     return res.status(401).send({
       isSuccess: false,
       message: "Invalid credentials",
