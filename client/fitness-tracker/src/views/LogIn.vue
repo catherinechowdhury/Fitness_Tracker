@@ -9,7 +9,7 @@ const email = ref('')
 const password = ref('')
 
 async function login() {
-  const res = await api<{ token: string }>('/api/v1/auth/login', {
+  const res = await api<{ token: string }>('/auth/login', {
     email: email.value,
     password: password.value,
   })
