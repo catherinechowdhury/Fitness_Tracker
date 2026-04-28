@@ -1,4 +1,6 @@
 import "dotenv/config"; // must be first — loads .env before any module-level code reads process.env
+console.log("SUPABASE KEY LOADED?", !!process.env.SUPABASE_KEY);
+console.log("KEY PREFIX:", process.env.SUPABASE_KEY?.slice(0, 10));
 import express from "express";
 import cors from "cors";
 import path from "path";

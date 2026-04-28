@@ -1,8 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.SUPABASE_URL || "";
-const supabaseKey = process.env.SUPABASE_KEY || "";
-
 export function connect() {
-  return createClient(supabaseUrl, supabaseKey);
+  console.log("SUPABASE CONNECT KEY:", process.env.SUPABASE_KEY?.slice(0, 10));
+  return createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KEY!);
 }
