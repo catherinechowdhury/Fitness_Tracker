@@ -83,7 +83,7 @@ router.patch("/:id", verifyJWT, async (req: any, res) => {
     } as DataEnvelope<Mood>);
   } catch (err) {
     console.error("Error updating mood:", err);
-    res.status(500).send({
+    return res.status(500).send({
       data: null,
       isSuccess: false,
     });
@@ -121,7 +121,7 @@ router.delete("/:id", verifyJWT, async (req: any, res) => {
     } as DataEnvelope<boolean>);
   } catch (err) {
     console.error("Error deleting mood:", err);
-    res.status(500).send({
+    return res.status(500).send({
       data: null,
       isSuccess: false,
     });
