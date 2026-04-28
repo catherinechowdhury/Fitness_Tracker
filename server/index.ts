@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { config } from "dotenv";
-
+import path from "path";
 import workoutController from "./controllers/workoutController";
 import moodController from "./controllers/moodController";
 import authController from "./controllers/authContoller";
@@ -26,7 +26,9 @@ app.use("/api/v1/auth", authController);
 app.use("/api/v1/workouts", verifyJWT, workoutController);
 app.use("/api/v1/moods", verifyJWT, moodController);
 app.use("/api/v1/users", verifyJWT, userController);
-
+app.get("*", (_req, res) => {
+  res.sendFile(path.resolve(STATIC_DIR, "index.html"));
+});
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://${SERVER}:${PORT}`);
