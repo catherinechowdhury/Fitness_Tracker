@@ -7,6 +7,8 @@ const supabase = connect();
 const router = Router();
 
 router.post("/login", async (req, res) => {
+  console.log("LOGIN BODY:", req.body);
+
   const { email, password } = req.body;
 
   const { data: user, error } = await supabase

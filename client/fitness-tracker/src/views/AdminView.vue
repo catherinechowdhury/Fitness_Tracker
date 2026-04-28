@@ -21,9 +21,9 @@
     </thead>
     <tbody>
       <tr>
-        <td>John</td>
+        <td>LuneChow</td>
         <td>Doe</td>
-        <td>john.doe@example.com</td>
+        <td>lunechow@example.com</td>
         <td>Admin</td>
         <td>
           <button class="button is-small is-danger">
@@ -34,9 +34,9 @@
         </td>
       </tr>
       <tr>
-        <td>Jane</td>
+        <td>IrfChow</td>
         <td>Doe</td>
-        <td>jane.doe@example.com</td>
+        <td>irfchow@example.com</td>
         <td>User #1</td>
         <td>
           <button class="button is-small is-danger">
