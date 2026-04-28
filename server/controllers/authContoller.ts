@@ -13,7 +13,7 @@ router.post("/login", async (req, res) => {
     .from("users")
     .select("*")
     .eq("email", email)
-    .single();
+    .maybeSingle();
 
   console.log("LOGIN BODY:", req.body);
   console.log("INPUT PASSWORD:", password);
