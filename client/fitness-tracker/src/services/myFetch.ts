@@ -3,11 +3,13 @@ const API_BASE_URL = import.meta.env.VITE_API_ROOT
 export async function rest<T>(endpoint: string, data?: unknown, options?: RequestInit): Promise<T> {
   const token = localStorage.getItem('token')
 
+  const isAuthRoute = endpoint.includes('/auth/login') || endpoint.includes('/auth/register')
+
   options = {
     method: data ? 'POST' : 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: token ? `Bearer ${token}` : '',
+      ...(token && !isAuthRoute ? { Authorization: `Bearer ${token}` } : {}),
       ...options?.headers,
     },
     body: data ? JSON.stringify(data) : undefined,
