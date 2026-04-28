@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { api } from '@/services/myFetch'
-import type { Mood } from '@/types/workout'
+import type { Mood } from '@/types/moods'
 import MoodList from '@/components/MoodList.vue'
 import MoodUpdate from '@/components/MoodUpdate.vue'
 import { currentUser } from '@/services/auth'
