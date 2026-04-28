@@ -26,7 +26,7 @@ app.use("/api/v1/auth", authController);
 app.use("/api/v1/workouts", verifyJWT, workoutController);
 app.use("/api/v1/moods", verifyJWT, moodController);
 app.use("/api/v1/users", verifyJWT, userController);
-app.get("/*", (_req, res) => {
+app.get(/.*/, (_req, res) => {
   res.sendFile(path.resolve(STATIC_DIR, "index.html"));
 });
 // Start server
