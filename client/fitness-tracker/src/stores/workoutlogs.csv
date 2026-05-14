@@ -1,0 +1,21 @@
+id,user_id,date,type,duration,mood_before,mood_after
+29,1,2026-03-02,Run,30 minutes,Sad,Happy
+30,1,2026-03-05,Walk,45 minutes,Neutral,Neutral
+31,1,2026-03-09,Yoga,60 minutes,Happy,Happy
+32,1,2026-03-12,Run,15 minutes,Neutral,Happy
+33,1,2026-03-16,Walk,30 minutes,Sad,Neutral
+34,1,2026-03-19,Yoga,45 minutes,Happy,Happy
+35,1,2026-03-23,Run,60 minutes,Neutral,Happy
+36,1,2026-03-26,Walk,15 minutes,Happy,Happy
+37,1,2026-03-30,Yoga,30 minutes,Sad,Happy
+38,1,2026-04-02,Run,45 minutes,Neutral,Happy
+39,1,2026-04-06,Walk,60 minutes,Happy,Happy
+40,1,2026-04-09,Yoga,15 minutes,Sad,Neutral
+41,1,2026-04-13,Run,30 minutes,Neutral,Happy
+42,1,2026-04-16,Walk,45 minutes,Happy,Happy
+43,1,2026-04-20,Yoga,60 minutes,Neutral,Happy
+44,1,2026-04-23,Run,15 minutes,Sad,Happy
+45,1,2026-04-27,Walk,30 minutes,Neutral,Neutral
+46,1,2026-04-30,Yoga,45 minutes,Happy,Happy
+47,1,2026-05-04,Run,60 minutes,Neutral,Happy
+48,1,2026-05-07,Walk,15 minutes,Sad,Happy
