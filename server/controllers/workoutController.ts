@@ -66,7 +66,7 @@ router.patch("/:id", verifyJWT, async (req: any, res) => {
         .send({ data: null, isSuccess: false, message: "Workout not found" });
       return;
     }
-    if (role !== "admin" && existing.user_id !== userId) {
+    if (role !== "admin" && existing.userId !== userId) {
       res
         .status(403)
         .send({ data: null, isSuccess: false, message: "Forbidden" });
@@ -101,7 +101,7 @@ router.delete("/:id", verifyJWT, async (req: any, res) => {
         .send({ data: null, isSuccess: false, message: "Workout not found" });
       return;
     }
-    if (role !== "admin" && existing.user_id !== userId) {
+    if (role !== "admin" && existing.userId !== userId) {
       res
         .status(403)
         .send({ data: null, isSuccess: false, message: "Forbidden" });

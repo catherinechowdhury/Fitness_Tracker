@@ -25,10 +25,12 @@ app.use(express.static(STATIC_DIR));
 app.use("/api/v1/auth", authController);
 app.use("/api/v1/workouts", verifyJWT, workoutController);
 app.use("/api/v1/moods", verifyJWT, moodController);
-app.use("/api/v1/users", userController); // per-route auth handled inside controller
+app.use("/api/v1/users", userController); // per-route auth
+// handled inside controller
 app.get(/.*/, (_req, res) => {
   res.sendFile(path.resolve(STATIC_DIR, "index.html"));
 });
+app.get("/api/v1/users/search", userController); // search route is public, handled inside controller
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://${SERVER}:${PORT}`);

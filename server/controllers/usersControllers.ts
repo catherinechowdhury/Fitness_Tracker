@@ -1,9 +1,44 @@
 import { Router } from "express";
-import { getAllUsers, createUser, deleteUser } from "../models/user";
+import {
+  getAllUsers,
+  createUser,
+  searchUsersByEmail,
+  deleteUser,
+} from "../models/user";
 import { verifyJWT, requireAdmin } from "../middleware/auth";
+//import { connect } from "../services/supabase";
 
+//const supabase = connect();
 const router = Router();
 
+// GET search users (public)
+// router.get("/search", async (req, res) => {
+//   try {
+//     const q = String(req.query.q ?? "").trim();
+//     if (q.length < 2) {
+//       return res.json([]);
+//     }
+//     const users = await searchUsersByEmail(q);
+//     res.send({ data: users, isSuccess: true });
+//   } catch (err) {
+//     res.status(500).send({ isSuccess: false, error: err });
+//   }
+// });
+router.get("/search", async (req, res) => {
+  try {
+    const q = String(req.query.q ?? "").trim();
+
+    if (q.length < 2) {
+      return res.send({ data: [], isSuccess: true });
+    }
+
+    const users = await searchUsersByEmail(q);
+
+    res.send({ data: users, isSuccess: true });
+  } catch (err) {
+    res.status(500).send({ isSuccess: false, error: err });
+  }
+});
 // GET all users (admin only)
 router.get("/", verifyJWT, requireAdmin, async (_req, res) => {
   try {

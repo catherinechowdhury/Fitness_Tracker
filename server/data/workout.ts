@@ -1,11 +1,11 @@
 export type Workout = {
   id: number;
-  user_id: number;
+  userId: number;
   date: string;
   type: string;
   duration: string;
-  mood_before: string;
-  mood_after: string;
+  moodBefore: string;
+  moodAfter: string;
 };
 
 export let workouts: Workout[] = [];

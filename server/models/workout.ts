@@ -3,6 +3,18 @@ import { NewWorkout } from "../types/dataEnvelopes";
 
 const supabase = connect();
 
+function mapWorkout(row: any) {
+  return {
+    id: row.id,
+    userId: row.user_id,
+    date: row.date,
+    type: row.type,
+    duration: row.duration,
+    moodBefore: row.mood_before,
+    moodAfter: row.mood_after,
+  };
+}
+
 // GET all workouts (user-specific or admin)
 export async function getAll(userId?: number) {
   let query = supabase.from("workouts").select("*");
@@ -16,7 +28,7 @@ export async function getAll(userId?: number) {
   if (error) throw error;
 
   return {
-    list: data ?? [],
+    list: (data ?? []).map(mapWorkout),
     count: data?.length ?? 0,
   };
 }
@@ -37,7 +49,7 @@ export async function create(workout: NewWorkout) {
     .single();
 
   if (error) throw error;
-  return data;
+  return mapWorkout(data);
 }
 
 // GET by ID
@@ -49,7 +61,7 @@ export async function getById(id: number) {
     .single();
 
   if (error) return null;
-  return data;
+  return mapWorkout(data);
 }
 
 // UPDATE (safe: never updates user_id)
@@ -68,7 +80,7 @@ export async function update(id: number, workout: Partial<NewWorkout>) {
     .single();
 
   if (error) throw error;
-  return data;
+  return mapWorkout(data);
 }
 
 // DELETE

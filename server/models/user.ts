@@ -34,6 +34,21 @@ export async function createUser(
   return data;
 }
 
+// SEARCH user by email
+export async function searchUsersByEmail(q: string) {
+  const { data, error } = await supabase
+    .from("users")
+    .select("id, username, email")
+    .ilike("email", `%${q}%`)
+    .limit(8);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
 // DELETE user
 export async function deleteUser(id: number) {
   const { error } = await supabase.from("users").delete().eq("id", id);

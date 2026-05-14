@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { api } from '@/services/myFetch'
-import type { User } from '@/types/user'
+//import { ref, onMounted } from 'vue'
+//import { api } from '@/services/myFetch'
+//import type { User } from '@/types/user'
+import { ref } from 'vue'
 import { currentUser } from '@/services/auth'
 import { useRouter } from 'vue-router'
 
@@ -10,12 +11,12 @@ const router = useRouter()
 const burgerActive = ref(false)
 const toggleSignUp = ref(false)
 
-const users = ref<User[]>([])
+//const users = ref<User[]>([])
 
-async function loadUsers() {
-  const res = await api<{ data: User[] }>('/users')
-  users.value = res.data
-}
+// async function loadUsers() {
+//   const res = await api<{ data: User[] }>('/users')
+//   users.value = res.data
+// }
 
 function logout() {
   localStorage.removeItem('token')
@@ -23,7 +24,7 @@ function logout() {
   router.push('/')
 }
 
-onMounted(loadUsers)
+//onMounted(loadUsers)
 </script>
 
 <template>
