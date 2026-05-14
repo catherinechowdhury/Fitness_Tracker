@@ -3,21 +3,29 @@ import { NewWorkout } from "../types/dataEnvelopes";
 
 const supabase = connect();
 
-// GET all workouts (user-specific or admin)
-export async function getAll(userId?: number) {
-  let query = supabase.from("workouts").select("*");
-
+// GET all workouts (user-specific or admin) with pagination
+export async function getAll(
+  userId?: number,
+  page: number = 1,
+  limit: number = 5,
+) {
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
+  let query = supabase
+    .from("workouts")
+    .select("*", { count: "exact" })
+    .order("date", { ascending: false });
   if (userId !== undefined) {
     query = query.eq("user_id", userId);
   }
 
-  const { data, error } = await query;
+  const { data, error, count } = await query.range(from, to);
 
   if (error) throw error;
 
   return {
     list: data ?? [],
-    count: data?.length ?? 0,
+    count: count ?? 0,
   };
 }
 

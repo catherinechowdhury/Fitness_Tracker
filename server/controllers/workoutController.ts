@@ -10,8 +10,10 @@ const router = Router();
 router.get("/", verifyJWT, async (req: any, res) => {
   try {
     const userId = req.user.role === "admin" ? undefined : req.user.id;
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 5;
 
-    const { list, count } = await getAll(userId);
+    const { list, count } = await getAll(userId, page, limit);
 
     const response: DataListEnvelope<Workout> = {
       data: list,
