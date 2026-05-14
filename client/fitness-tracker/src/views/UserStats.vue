@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { ref, watch } from 'vue'
 import { api } from '@/services/myFetch'
 import type { Workout } from '@/types/workout'
 import ActivityTracker from '@/components/ActivityTracker.vue'
@@ -10,23 +10,44 @@ import { useInfiniteScroll } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
 
 const el = useTemplateRef('el')
-const allWorkouts = ref<Workout[]>([])
+const workouts = ref<Workout[]>([])
 const pageSize = 5
-const visibleCount = ref(pageSize)
-
-const workouts = computed(() => allWorkouts.value.slice(0, visibleCount.value))
-const hasMore = computed(() => visibleCount.value < allWorkouts.value.length)
+const currentPage = ref(1)
+const totalWorkouts = ref(0)
+const hasMore = ref(true)
 
 const { reset } = useInfiniteScroll(
   el,
-  () => {
-    visibleCount.value += pageSize
+  async () => {
+    if (loading.value || !hasMore.value) return
+
+    currentPage.value += 1
+    await fetchPage(currentPage.value)
   },
   {
-    distance: 10, //distance in pixels from the bottom to trigger loading more
-    canLoadMore: () => hasMore.value,
+    distance: 10,
+    canLoadMore: () => hasMore.value && !loading.value,
   },
 )
+
+const loading = ref(false)
+async function fetchPage(page: number) {
+  if (!currentUser.value || loading.value || !hasMore.value) return
+
+  loading.value = true
+
+  try {
+    const res = await api<{ data: Workout[]; total: number }>(
+      `/workouts?page=${page}&limit=${pageSize}`,
+    )
+
+    workouts.value.push(...res.data)
+    totalWorkouts.value = res.total
+    hasMore.value = workouts.value.length < res.total
+  } finally {
+    loading.value = false
+  }
+}
 
 const toggleWorkoutLog = ref(false)
 
@@ -35,8 +56,13 @@ const editingWorkout = ref<Workout | null>(null)
 async function loadWorkouts() {
   if (!currentUser.value) return
 
-  const res = await api<{ data: Workout[] }>(`/workouts`)
-  allWorkouts.value = res.data
+  workouts.value = []
+  currentPage.value = 1
+  totalWorkouts.value = 0
+  hasMore.value = true
+
+  reset()
+  await fetchPage(1)
 }
 
 async function deleteWorkout(id: number) {
@@ -59,14 +85,22 @@ watch(
   { immediate: true },
 )
 
-// after saving a workout
+function closeWorkoutLog() {
+  toggleWorkoutLog.value = false
+  editingWorkout.value = null
+}
+
 function handleSaved() {
+  closeWorkoutLog()
   loadWorkouts()
 }
 
 function resetList() {
-  visibleCount.value = pageSize
+  workouts.value = []
+  currentPage.value = 1
+  hasMore.value = true
   reset()
+  fetchPage(1)
 }
 </script>
 
@@ -95,7 +129,7 @@ function resetList() {
   <WorkoutLog
     v-if="toggleWorkoutLog"
     :workout="editingWorkout"
-    @close="toggleWorkoutLog = false"
+    @close="closeWorkoutLog"
     @saved="handleSaved"
   />
 
@@ -103,11 +137,11 @@ function resetList() {
   <div class="container">
     <h1 class="title is-3">My Statistics</h1>
     <!--A label that shows which workout number is showing-->
-    <label class="label">Showing {{ workouts.length }} of {{ allWorkouts.length }} workouts</label>
+    <label class="label">Showing {{ workouts.length }} of {{ totalWorkouts }} workouts</label>
 
     <div ref="el" style="max-height: 600px; overflow-y: auto">
       <ActivityTracker :workouts="workouts" @delete="deleteWorkout" @edit="handleEdit" />
-      <div class="skeleton-lines">
+      <div v-if="loading" class="skeleton-lines">
         <div></div>
         <div></div>
         <div></div>
@@ -115,7 +149,9 @@ function resetList() {
         <div></div>
       </div>
 
-      <p v-if="!hasMore" class="has-text-centered mt-3">No more workouts to load.</p>
+      <p v-if="!hasMore && workouts.length > 0" class="has-text-centered mt-3">
+        No more workouts to load.
+      </p>
     </div>
 
     <button class="button mt-3" @click="resetList()">Reset</button>
